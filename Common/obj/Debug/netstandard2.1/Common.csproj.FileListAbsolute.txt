@@ -1,0 +1,16 @@
+/home/ramin/sources/Client Back/Common/bin/Debug/netstandard2.1/Common.deps.json
+/home/ramin/sources/Client Back/Common/bin/Debug/netstandard2.1/Common.dll
+/home/ramin/sources/Client Back/Common/bin/Debug/netstandard2.1/Common.pdb
+/home/ramin/sources/Client Back/Common/obj/Debug/netstandard2.1/Common.AssemblyInfoInputs.cache
+/home/ramin/sources/Client Back/Common/obj/Debug/netstandard2.1/Common.AssemblyInfo.cs
+/home/ramin/sources/Client Back/Common/obj/Debug/netstandard2.1/Common.dll
+/home/ramin/sources/Client Back/Common/obj/Debug/netstandard2.1/Common.pdb
+/home/ramin/sources/Client Back/Common/obj/Debug/netstandard2.1/Common.csprojAssemblyReference.cache
+/home/ramin/sources/MiniBP/Common/bin/Debug/netstandard2.1/Common.deps.json
+/home/ramin/sources/MiniBP/Common/bin/Debug/netstandard2.1/Common.dll
+/home/ramin/sources/MiniBP/Common/bin/Debug/netstandard2.1/Common.pdb
+/home/ramin/sources/MiniBP/Common/obj/Debug/netstandard2.1/Common.csprojAssemblyReference.cache
+/home/ramin/sources/MiniBP/Common/obj/Debug/netstandard2.1/Common.AssemblyInfoInputs.cache
+/home/ramin/sources/MiniBP/Common/obj/Debug/netstandard2.1/Common.AssemblyInfo.cs
+/home/ramin/sources/MiniBP/Common/obj/Debug/netstandard2.1/Common.dll
+/home/ramin/sources/MiniBP/Common/obj/Debug/netstandard2.1/Common.pdb

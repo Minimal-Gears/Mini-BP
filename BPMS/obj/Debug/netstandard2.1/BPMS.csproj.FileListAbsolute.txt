@@ -1,0 +1,24 @@
+/home/ramin/sources/Client Back/BPMS/bin/Debug/netstandard2.1/BPMS.deps.json
+/home/ramin/sources/Client Back/BPMS/bin/Debug/netstandard2.1/BPMS.dll
+/home/ramin/sources/Client Back/BPMS/bin/Debug/netstandard2.1/BPMS.pdb
+/home/ramin/sources/Client Back/BPMS/bin/Debug/netstandard2.1/Common.dll
+/home/ramin/sources/Client Back/BPMS/bin/Debug/netstandard2.1/Common.pdb
+/home/ramin/sources/Client Back/BPMS/obj/Debug/netstandard2.1/BPMS.csprojAssemblyReference.cache
+/home/ramin/sources/Client Back/BPMS/obj/Debug/netstandard2.1/EFCoreNpgsqlNetTopologySuite.cs
+/home/ramin/sources/Client Back/BPMS/obj/Debug/netstandard2.1/BPMS.AssemblyInfoInputs.cache
+/home/ramin/sources/Client Back/BPMS/obj/Debug/netstandard2.1/BPMS.AssemblyInfo.cs
+/home/ramin/sources/Client Back/BPMS/obj/Debug/netstandard2.1/BPMS.csproj.CopyComplete
+/home/ramin/sources/Client Back/BPMS/obj/Debug/netstandard2.1/BPMS.dll
+/home/ramin/sources/Client Back/BPMS/obj/Debug/netstandard2.1/BPMS.pdb
+/home/ramin/sources/MiniBP/BPMS/bin/Debug/netstandard2.1/BPMS.deps.json
+/home/ramin/sources/MiniBP/BPMS/bin/Debug/netstandard2.1/BPMS.dll
+/home/ramin/sources/MiniBP/BPMS/bin/Debug/netstandard2.1/BPMS.pdb
+/home/ramin/sources/MiniBP/BPMS/bin/Debug/netstandard2.1/Common.dll
+/home/ramin/sources/MiniBP/BPMS/bin/Debug/netstandard2.1/Common.pdb
+/home/ramin/sources/MiniBP/BPMS/obj/Debug/netstandard2.1/BPMS.csprojAssemblyReference.cache
+/home/ramin/sources/MiniBP/BPMS/obj/Debug/netstandard2.1/EFCoreNpgsqlNetTopologySuite.cs
+/home/ramin/sources/MiniBP/BPMS/obj/Debug/netstandard2.1/BPMS.AssemblyInfoInputs.cache
+/home/ramin/sources/MiniBP/BPMS/obj/Debug/netstandard2.1/BPMS.AssemblyInfo.cs
+/home/ramin/sources/MiniBP/BPMS/obj/Debug/netstandard2.1/BPMS.csproj.CopyComplete
+/home/ramin/sources/MiniBP/BPMS/obj/Debug/netstandard2.1/BPMS.dll
+/home/ramin/sources/MiniBP/BPMS/obj/Debug/netstandard2.1/BPMS.pdb
