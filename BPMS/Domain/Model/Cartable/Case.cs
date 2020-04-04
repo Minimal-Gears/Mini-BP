@@ -3,30 +3,31 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using BPMS.Domain.Model.Workflow;
+using BPMS.Services.CartableService;
 using Stateless;
 
 namespace BPMS.Domain.Model.Cartable
 {
-    public class Case : StateMachine<CaseStates, CartableTiggers>, IEntity
+    public class Case : StateMachine<CaseStates, CartableTiggers>, IEntity// where TStep : Enum
     {
         public Case(string title,
-            string workFlowTitle,
-            string lastStepTitle,
-            string workFlowReference,
-            CaseStates state,
-            int flowStep,
-            Guid? creatorId,
-            Guid currentUserId,
-            Dictionary<string, string> flowParameters
-        ) : this(state)
+        string workFlowTitle,
+        string lastStepTitle,
+        string workFlowReference,
+        CaseStates state,
+        int flowStep,
+        Guid? creatorId,
+        Guid currentUserId,
+        Dictionary<string, string> flowParameters) : this(state)
         {
             Title = title;
             WorkFlowTitle = workFlowTitle;
             LastStepTitle = lastStepTitle;
             WorkFlowReference = workFlowReference;
             CreatorId = creatorId;
-            FlowParameters=new List<FlowParameter>();
-            Tracks=new List<CaseTracker>();
+            FlowParameters = new List<FlowParameter>();
+            Tracks = new List<CaseTracker>();
             AddFlowParameters(flowParameters);
             AddCaseTrack(
                 Id,
@@ -37,7 +38,9 @@ namespace BPMS.Domain.Model.Cartable
                 currentUserId,
                 DateTime.Now,
                 1,
-                true);
+                true,
+                string.Empty,
+                DateTime.Now);
         }
 
         public Case(CaseStates state = CaseStates.Draft) : base(state)
@@ -46,20 +49,25 @@ namespace BPMS.Domain.Model.Cartable
                 .Permit(CartableTiggers.Route, CaseStates.ToDo);
 
             this.Configure(CaseStates.ToDo)
-                .OnEntry(() => Tracks.First()) //.Duty.OnEntry())
-                .OnExit(() => Tracks.First()) //.Duty.OnExit())
-                .PermitReentryIf(CartableTiggers.Route,
-                    () => true) // !Tracks.First().Duty.IsFinalTask && Tracks.First().Duty.BeforeExit())
-                .PermitIf(CartableTiggers.Route, CaseStates.Done,
-                    () => true) //() => Tracks.First().Duty.IsFinalTask && Tracks.First().Duty.BeforeExit())
-                .Permit(CartableTiggers.Cancel, CaseStates.Canceled)
-                .Permit(CartableTiggers.Pause, CaseStates.Paused)
-                .PermitReentry(CartableTiggers.Reassign);
+            // .OnEntry(() => Tracks.First()) //.Duty.OnEntry())
+            //.OnExit(() => Tracks.First()) //.Duty.OnExit())
+            .PermitReentryIf(CartableTiggers.Route, () => !IsCurrentStateFinalState)
+            // ,() => !IsReadyToDone()
+            //     ) // !Tracks.First().Duty.IsFinalTask && Tracks.First().Duty.BeforeExit())
+            .PermitIf(CartableTiggers.Route, CaseStates.Done, () => IsCurrentStateFinalState);
+            // ) //() => Tracks.First().Duty.IsFinalTask && Tracks.First().Duty.BeforeExit())
+            // .Permit(CartableTiggers.Cancel, CaseStates.Canceled)
+            // .Permit(CartableTiggers.Pause, CaseStates.Paused)
+            // .PermitReentry(CartableTiggers.Reassign);
 
             this.Configure(CaseStates.Paused)
                 .Permit(CartableTiggers.Restart, CaseStates.ToDo)
                 .Permit(CartableTiggers.Cancel, CaseStates.Canceled);
         }
+
+        //  public WorkflowStep<TStep> CurrentStep { get; set; }
+        [NotMapped]
+        public bool IsCurrentStateFinalState { get; private set; }
 
         public int Id { get; private set; }
 
@@ -68,42 +76,41 @@ namespace BPMS.Domain.Model.Cartable
 
         [StringLength(50), Column(TypeName = "VARCHAR(50)")]
         public string WorkFlowTitle { get; private set; }
-        
-       // public CaseStates State { get; private set; }
-        
+
+        // public CaseStates State { get; private set; }
+
         [StringLength(50), Column(TypeName = "VARCHAR(50)")]
         public string LastStepTitle { get; private set; }
-        
+
         public string WorkFlowReference { get; private set; }
 
         public Guid? CreatorId { get; private set; }
 
-        public List<CaseTracker> Tracks { get;  set; }
+        public List<CaseTracker> Tracks { get; set; }
 
-        public List<FlowParameter> FlowParameters { get;  set; }
+        public List<FlowParameter> FlowParameters { get; set; }
 
         public List<Note> Notes { get; private set; }
 
-        
 
-        #region Methodes
-
-        
-        
-        public void Route(int currentStep,string stepTitle,Guid currentUserId)
+        public void Route<TStep>(WorkflowStep<TStep> wfs) where TStep : Enum
         {
+            SetIsCurrentStateFinalState(wfs.IsFinal);
             Fire(CartableTiggers.Route);
-           
+            SetAreNotLatestTracks();
+            LastStepTitle = wfs.Step.ToString();
             AddCaseTrack(
              Id,
              Title,
-             stepTitle,
+             wfs.Step.ToString(),
              State,
-             currentStep,
-             currentUserId, 
+             Convert.ToInt32(wfs.Step),
+             wfs.SelectedUser,
              DateTime.Now,
              1,
-             true);
+             true,
+             wfs.Url,
+             DateTime.Now);
         }
 
         public void Cancel()
@@ -120,6 +127,11 @@ namespace BPMS.Domain.Model.Cartable
 
         public void Restart()
         {
+        }
+
+        private void SetIsCurrentStateFinalState(bool isCurrentStateFinalState)
+        {
+            IsCurrentStateFinalState = isCurrentStateFinalState;
         }
 
         private void AddFlowParameters(Dictionary<string, string> flowParameters)
@@ -140,7 +152,9 @@ namespace BPMS.Domain.Model.Cartable
             Guid currentUserId,
             DateTime dueDate,
             int priority,
-            bool isLatestTrack)
+            bool isLatestTrack,
+            string url,
+            DateTime creationDate)
         {
             var caseTrack = new CaseTracker(
                 caseId,
@@ -151,12 +165,25 @@ namespace BPMS.Domain.Model.Cartable
                 currentUserId,
                 dueDate,
                 priority,
-                isLatestTrack
-            );
+                isLatestTrack,
+                url,
+                creationDate);
             Tracks.Add(caseTrack);
         }
 
-        
-        #endregion
+        private void SetAreNotLatestTracks()
+        {
+            foreach (var track in Tracks)
+            {
+                track.IsNotLatestTrack();
+            }
+        }
+
+        // private bool IsReadyToDone<TStep>() where TStep : Enum
+        // {
+        //     var workflowEnum = Enum.Parse(typeof(TStep), Tracks.Single(a => a.IsLatestTrack).FlowStep.ToString()) as Enum;
+        //     var workFlow = cartableService.GetEventInstance<TStep>(WorkFlowReference, workflowEnum);
+        //     return true;// workFlow.IsFinalStep;
+        // }
     }
 }

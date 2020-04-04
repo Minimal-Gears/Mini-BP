@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/home/ramin/sources/MiniBP/BPMS/BPMS.csproj": {}
+    "/home/ramin.naderi/github/Mini-BP/BPMS/BPMS.csproj": {}
   },
   "projects": {
-    "/home/ramin/sources/MiniBP/BPMS/BPMS.csproj": {
+    "/home/ramin.naderi/github/Mini-BP/BPMS/BPMS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ramin/sources/MiniBP/BPMS/BPMS.csproj",
+        "projectUniqueName": "/home/ramin.naderi/github/Mini-BP/BPMS/BPMS.csproj",
         "projectName": "BPMS",
-        "projectPath": "/home/ramin/sources/MiniBP/BPMS/BPMS.csproj",
-        "packagesPath": "/home/ramin/.nuget/packages/",
-        "outputPath": "/home/ramin/sources/MiniBP/BPMS/obj/",
+        "projectPath": "/home/ramin.naderi/github/Mini-BP/BPMS/BPMS.csproj",
+        "packagesPath": "/home/ramin.naderi/.nuget/packages/",
+        "outputPath": "/home/ramin.naderi/github/Mini-BP/BPMS/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/ramin/.nuget/NuGet/NuGet.Config"
+          "/home/ramin.naderi/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.1"
@@ -28,8 +28,8 @@
         "frameworks": {
           "netstandard2.1": {
             "projectReferences": {
-              "/home/ramin/sources/MiniBP/Common/Common.csproj": {
-                "projectPath": "/home/ramin/sources/MiniBP/Common/Common.csproj"
+              "/home/ramin.naderi/github/Mini-BP/Common/Common.csproj": {
+                "projectPath": "/home/ramin.naderi/github/Mini-BP/Common/Common.csproj"
               }
             }
           }
@@ -49,43 +49,43 @@
             },
             "Autofac": {
               "target": "Package",
-              "version": "[4.9.4, )"
+              "version": "[5.1.2, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.Extensions.Configuration.FileExtensions": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.Extensions.Localization.Abstractions": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[3.1.2, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[3.0.1, )"
+              "version": "[3.1.2, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite": {
               "target": "Package",
-              "version": "[3.0.1, )"
+              "version": "[3.1.2, )"
             },
             "Stateless": {
               "target": "Package",
-              "version": "[4.3.0, )"
+              "version": "[5.0.0, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
-              "version": "[1.0.19, )"
+              "version": "[1.0.21, )"
             }
           },
           "imports": [
@@ -97,30 +97,24 @@
             "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "NETStandard.Library": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     },
-    "/home/ramin/sources/MiniBP/Common/Common.csproj": {
+    "/home/ramin.naderi/github/Mini-BP/Common/Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ramin/sources/MiniBP/Common/Common.csproj",
+        "projectUniqueName": "/home/ramin.naderi/github/Mini-BP/Common/Common.csproj",
         "projectName": "Common",
-        "projectPath": "/home/ramin/sources/MiniBP/Common/Common.csproj",
-        "packagesPath": "/home/ramin/.nuget/packages/",
-        "outputPath": "/home/ramin/sources/MiniBP/Common/obj/",
+        "projectPath": "/home/ramin.naderi/github/Mini-BP/Common/Common.csproj",
+        "packagesPath": "/home/ramin.naderi/.nuget/packages/",
+        "outputPath": "/home/ramin.naderi/github/Mini-BP/Common/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/ramin/.nuget/NuGet/NuGet.Config"
+          "/home/ramin.naderi/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.1"
@@ -150,13 +144,7 @@
             "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "NETStandard.Library": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     }

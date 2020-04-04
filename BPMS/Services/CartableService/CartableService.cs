@@ -7,102 +7,115 @@ using BPMS.Domain.Repository;
 using BPMS.Infrastructures.DataAccess;
 using BPMS.Services.Dto.Cartable;
 using BPMS.Services.Dto.WorkFlow;
-using BPMS.Services.WorkFlow;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
 using System.Collections.Generic;
+using BPMS.Domain.Model.Workflow;
+using BPMS.Domain.Model.Workflow.AssignmentMethod;
 using Common;
 
 namespace BPMS.Services.CartableService
 {
-    public class CartableService<TStep> : BaseService where TStep : Enum
+    public class CartableService : BaseService //where TStep : Enum
     {
-        private readonly ILogger<CartableService<TStep>> logger;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly ILogger<CartableService> logger;
+        private readonly IBpmsUnitOfWork bpmsUnitOfWork;
         private readonly ICaseRepository caseRepository;
         private readonly IMapper mapper;
         private readonly IUserContext userContext;
 
-        public CartableService(ICaseRepository caseRepository, IUnitOfWork unitOfWork,
-            ILogger<CartableService<TStep>> logger,
-         Common.IUserContext userContext
-        )
+        public CartableService(ICaseRepository caseRepository, IBpmsUnitOfWork bpmsUnitOfWork,
+            ILogger<CartableService> logger,
+            IUserContext userContext
+        ) : base(userContext)
         {
             this.caseRepository = caseRepository;
-            this.unitOfWork = unitOfWork;
+            this.bpmsUnitOfWork = bpmsUnitOfWork;
             this.logger = logger;
             this.userContext = userContext;
         }
 
-        public async Task<Case> Start(StartWorkFlowDto<TStep> startWorkFlowDto)
+        public async Task<Case> Start<TStep>(StartWorkFlowDto<TStep> startWorkFlowDto) where TStep : Enum
         {
-            //Enum test = Enum.Parse(typeof(TStep), startWorkFlowDto.WorkFlowInstance.StartStep.ToString()) as Enum;
             var @case = await Create(startWorkFlowDto);
             return @case;
         }
 
-        public async Task Route(int caseId)
+        public async Task<Case> Route<TStep>(RouteVariable routeVariable) where TStep : Enum
         {
-            var @case = await caseRepository.GetById(@caseId);
-            Route(@case);
+            //var www = await caseRepository.GetById(caseId);
+            var @case = await caseRepository.Get()
+            .Include(a => a.Tracks)
+            .Include(a => a.FlowParameters)
+            .FirstAsync(b => b.Id == routeVariable.CaseId);
+            var workFlow = GetEventInstance<TStep>(@case.WorkFlowReference, @case);
+            var currentStep = workFlow.Next();
+            @case.Route<TStep>(currentStep);
+            caseRepository.Update(@case);
+            try
+            {
+                bpmsUnitOfWork.Commit();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "CaseRepository");
+                throw;
+            }
+            return @case;
         }
 
-        public void Route(Case @case)
-        {
-            var workflowEnum = Enum.Parse(typeof(TStep), @case.Tracks.LastOrDefault().FlowStep.ToString()) as Enum;
-            var workFlow = GetEventInstance(@case.WorkFlowReference, workflowEnum);
-            var currentStep = workFlow.Next();
-            @case.Route(Convert.ToInt32(currentStep.Step), "ddd", currentStep.SelectedUser);
-        }
+        // public Case Route<TStep>(Case @case) where TStep : Enum
+        // {
+
+
+        // }
 
         public async Task<(IEnumerable<CartableDto>, int totalCount)> GetByUser(int pageNumber, int pageSize)
         {
             var userId = userContext.CurrentUser.UserId;
-            var query = caseRepository.Get().Where(a => a.CreatorId == userId);
+            var query = caseRepository.Get().Include(a => a.Tracks).Include(b => b.FlowParameters).Where(c => c.Tracks.Any(t => t.IsLatestTrack && t.CurrentUserId == userId));
             var cartables = await query.OrderBy(t => t.Id).Page(pageNumber, pageSize).ToListAsync();
-            var cartableDtos = cartables.Select(a => new CartableDto
-            {
-                Id = a.Id,
-                CreatorId = a.CreatorId,
-                LastStepTitle = a.LastStepTitle,
-                State = a.State,
-                StateTitle = ((Domain.Model.Cartable.CaseStates)a.State).ToString(),
-                Title = a.Title,
-                WorkFlowTitle = a.WorkFlowTitle,
-                WorkFlowReference = a.WorkFlowReference
-            });
-
+            var cartableDtos = cartables.Select(a => CartableDto.ConvertToDto(a));
             return (cartableDtos, query.Count());
         }
 
-        private WorkFlow<TStep> GetEventInstance(string workFlowReference, Enum lastStep)
+        public async Task<CartableDto> GetById(int Id)
         {
+            var userId = userContext.CurrentUser.UserId;
+            var cartable = await caseRepository.Get().Include(a => a.Tracks).Include(b => b.FlowParameters).FirstOrDefaultAsync(a => a.Id == Id);
+            return CartableDto.ConvertToDto(cartable);
+        }
+
+        private WorkFlow<TStep> GetEventInstance<TStep>(string workFlowReference, Case @case) where TStep : Enum
+        {
+            var workflowEnum = Enum.Parse(typeof(TStep), @case.Tracks.Single(a => a.IsLatestTrack).FlowStep.ToString()) as Enum;
             var workFlowRefereceType = Type.GetType(workFlowReference);
-            var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, lastStep);
+            var workflowStep = new WorkflowStep<TStep>((TStep)workflowEnum, new CyclicAssignmentMethod(), new List<Guid>(), string.Empty);
+            var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, workflowStep, null);
             return instance;
         }
 
-        private async Task<Case> Create(StartWorkFlowDto<TStep> startWorkFlowDto)
+        private async Task<Case> Create<TStep>(StartWorkFlowDto<TStep> startWorkFlowDto) where TStep : Enum
         {
             var createCaseDto = new CreateCaseDto
             {
                 Title = startWorkFlowDto.Title,
                 WorkFlowTitle = startWorkFlowDto.WorkFlowInstance.Name,
-                LastStepTitle = startWorkFlowDto.WorkFlowInstance.StartStep.ToString(),
+                LastStepTitle = startWorkFlowDto.WorkFlowInstance.StartStep.Step.ToString(),
                 WorkFlowReference = startWorkFlowDto.WorkFlowInstance.GetType().AssemblyQualifiedName,
                 State = CaseStates.Draft,
-                FlowStep = Convert.ToInt32(startWorkFlowDto.WorkFlowInstance.StartStep),
+                FlowStep = Convert.ToInt32(startWorkFlowDto.WorkFlowInstance.StartStep.Step),
                 CreatorId = startWorkFlowDto.CurrentUserId,
                 CurrentUserId = startWorkFlowDto.CurrentUserId,
                 FlowParameters = startWorkFlowDto.FlowParameters
             };
 
-            var @case = await Create(createCaseDto);
+            var @case = await Create<TStep>(createCaseDto);
             return @case;
         }
 
-        private async Task<Case> Create(CreateCaseDto createCaseDto)
+        private async Task<Case> Create<TStep>(CreateCaseDto createCaseDto) where TStep : Enum
         {
             var cartableCase = new Case(
                 createCaseDto.Title,
@@ -114,10 +127,11 @@ namespace BPMS.Services.CartableService
                 createCaseDto.CreatorId,
                 createCaseDto.CurrentUserId,
                 createCaseDto.FlowParameters);
+
             await caseRepository.Add(cartableCase);
             try
             {
-                await unitOfWork.CommitAsync();
+                await bpmsUnitOfWork.CommitAsync();
             }
             catch (Exception ex)
             {

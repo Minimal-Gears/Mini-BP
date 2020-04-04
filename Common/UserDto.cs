@@ -2,10 +2,19 @@ using System;
 
 namespace Common
 {
-    public class UserDto
-    {
-        public Guid UserId { get; set; }
+	public class UserDto
+	{
+		public UserDto(Guid userId, string username, int organizationId)
+		{
+			UserId = userId;
+			Username = username;
+			OrganizationId = organizationId;
+		}
 
-        public string Username { get; set; }
-    }
+		public Guid UserId { get; }
+
+		public string Username { get; }
+
+		public int OrganizationId { get; }
+	}
 }

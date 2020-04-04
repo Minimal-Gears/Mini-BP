@@ -52,7 +52,7 @@ namespace BPMS.Infrastructures.DataAccess.Repository
 
         public async Task<IEnumerable<TEntity>> Get(string query, string orderby, /*Expression<Func<TEntity, object>>[] includes,*/int pageNumber = 1, int pageSize = 25)
         {
-           // IIncludableQueryable<TEntity>
+            // IIncludableQueryable<TEntity>
             return await dataSet.Where("HixCode=@0", "6651651600")/*
                 .OrderBy(orderby)
                 .Skip((pageNumber - 1) * pageSize).Take(pageSize)*/.ToListAsync();

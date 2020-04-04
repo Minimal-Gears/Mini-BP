@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using BPMS.Services.WorkFlow;
+using BPMS.Domain.Model.Workflow;
 
 namespace BPMS.Services.Dto.WorkFlow
 {

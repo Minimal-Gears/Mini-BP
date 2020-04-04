@@ -12,7 +12,7 @@ namespace BPMS.Domain.Repository
     {
         Task Add(TEntity entity);
         void Remove(TEntity entity);
-        void Update(TEntity retailer);
+        void Update(TEntity entity);
     }
 
     public interface IQueryService<TEntity>

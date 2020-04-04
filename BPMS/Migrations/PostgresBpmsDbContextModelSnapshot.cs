@@ -63,6 +63,9 @@ namespace BPMS.Migrations
                     b.Property<int>("CaseId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<Guid>("CurrentUserId")
                         .HasColumnType("uuid");
 
@@ -87,6 +90,9 @@ namespace BPMS.Migrations
                     b.Property<string>("StepTitle")
                         .HasColumnType("VARCHAR(50)")
                         .HasMaxLength(50);
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

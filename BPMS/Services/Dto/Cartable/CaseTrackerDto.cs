@@ -17,13 +17,16 @@ namespace BPMS.Services.Dto.Cartable
 
         public Guid CurrentUserId { get; set; }
 
-
         public Guid? PreviousUserId { get; set; }
+
+        public DateTime CreationDate { get; set; }
 
         public DateTime DueDate { get; set; }
 
         public int Priority { get; set; }
 
         public bool IsLatestTrack { get; set; }
+
+        public string Url { get; set; }
     }
 }

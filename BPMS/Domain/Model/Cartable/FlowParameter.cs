@@ -1,6 +1,8 @@
+using BPMS.Domain.Model.Workflow;
+
 namespace BPMS.Domain.Model.Cartable
 {
-    public class FlowParameter : IEntity
+    public class FlowParameter : IEntity, IFlowParameter
     {
         public FlowParameter(int caseId, string key, string value)
         {
@@ -20,7 +22,7 @@ namespace BPMS.Domain.Model.Cartable
         public string Key { get; private set; }
 
         public string Value { get; private set; }
-       
+
         public Case Case { get; private set; }
     }
 }

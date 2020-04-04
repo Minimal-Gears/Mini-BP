@@ -25,11 +25,12 @@ namespace BPMS
             builder.Register(a => new PostgresBpmsDbContext(connectionString)).As<BpmsDbContext>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<PostgresExceptionHelper>().As<IDbExceptionHelper>().InstancePerLifetimeScope();
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(CartableService<>)).AsSelf().InstancePerLifetimeScope();
-            
+            builder.RegisterType<BpmsUnitOfWork>().As<IBpmsUnitOfWork>().InstancePerLifetimeScope();
+            builder.RegisterType<CartableService>().AsSelf().InstancePerLifetimeScope();
+            //  builder.RegisterGeneric(typeof(CartableService<>)).AsSelf().InstancePerLifetimeScope();
+
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(t => t.Name.EndsWith("Repository") )
+                .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
         }

@@ -4,18 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BPMS.Domain.Model.Cartable
 {
- public class CaseTracker : IEntity
+    public class CaseTracker : IEntity
     {
         public CaseTracker(
             int caseId,
-            string title, 
+            string title,
             string stepTitle,
-            CaseStates state, 
-            int flowStep, 
-            Guid currentUserId, 
-            DateTime dueDate, 
+            CaseStates state,
+            int flowStep,
+            Guid currentUserId,
+            DateTime dueDate,
             int priority,
-            bool isLatestTrack)
+            bool isLatestTrack,
+            string url,
+            DateTime creationDate)
         {
             CaseId = caseId;
             StepTitle = stepTitle;
@@ -25,13 +27,15 @@ namespace BPMS.Domain.Model.Cartable
             DueDate = dueDate;
             Priority = priority;
             IsLatestTrack = isLatestTrack;
+            Url = url;
+            CreationDate = creationDate;
         }
 
         private CaseTracker()
         {
-            
+
         }
-        
+
         public int Id { get; private set; }
 
         public int CaseId { get; private set; }
@@ -47,13 +51,18 @@ namespace BPMS.Domain.Model.Cartable
 
         public Guid CurrentUserId { get; private set; }
 
-       
         public Guid? PreviousUserId { get; private set; }
+
+        public DateTime CreationDate { get; private set; }
 
         public DateTime DueDate { get; private set; }
 
         public int Priority { get; private set; }
 
         public bool IsLatestTrack { get; private set; }
+
+        public string Url { get; private set; }
+
+        public void IsNotLatestTrack() => IsLatestTrack = false;
     }
 }
