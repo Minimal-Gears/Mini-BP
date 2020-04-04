@@ -9,7 +9,6 @@ using BPMS.Services.Dto.Cartable;
 using BPMS.Services.Dto.WorkFlow;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using AutoMapper;
 using System.Collections.Generic;
 using BPMS.Domain.Model.Workflow;
 using BPMS.Domain.Model.Workflow.AssignmentMethod;
@@ -22,7 +21,6 @@ namespace BPMS.Services.CartableService
         private readonly ILogger<CartableService> logger;
         private readonly IBpmsUnitOfWork bpmsUnitOfWork;
         private readonly ICaseRepository caseRepository;
-        private readonly IMapper mapper;
         private readonly IUserContext userContext;
 
         public CartableService(ICaseRepository caseRepository, IBpmsUnitOfWork bpmsUnitOfWork,
