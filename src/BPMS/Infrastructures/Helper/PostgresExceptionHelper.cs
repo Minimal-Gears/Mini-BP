@@ -4,6 +4,7 @@ using Npgsql;
 
 namespace BPMS.Infrastructures.Helper
 {
+    // You can create your own exception helper for any DBMS
     public class PostgresExceptionHelper : IDbExceptionHelper
     {
         public ExceptionResult Translate(DbUpdateException ex)
