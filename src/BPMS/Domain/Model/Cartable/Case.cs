@@ -60,6 +60,7 @@ namespace BPMS.Domain.Model.Cartable
             // .Permit(CartableTiggers.Pause, CaseStates.Paused)
             // .PermitReentry(CartableTiggers.Reassign);
 
+
             this.Configure(CaseStates.Paused)
                 .Permit(CartableTiggers.Restart, CaseStates.ToDo)
                 .Permit(CartableTiggers.Cancel, CaseStates.Canceled);
