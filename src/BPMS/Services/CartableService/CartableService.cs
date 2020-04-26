@@ -47,7 +47,7 @@ namespace BPMS.Services.CartableService
             .Include(a => a.Tracks)
             .Include(a => a.FlowParameters)
             .FirstAsync(b => b.Id == routeVariable.CaseId);
-            var workFlow = GetEventInstance<TStep>(@case.WorkFlowReference, @case);
+            var workFlow = GetEventInstance<TStep>(@case.WorkFlowReference, @case, routeVariable);
             var currentStep = workFlow.Next();
             @case.Route<TStep>(currentStep);
             caseRepository.Update(@case);
@@ -62,12 +62,6 @@ namespace BPMS.Services.CartableService
             }
             return @case;
         }
-
-        // public Case Route<TStep>(Case @case) where TStep : Enum
-        // {
-
-
-        // }
 
         public async Task<(IEnumerable<CartableDto>, int totalCount)> GetByUser(int pageNumber, int pageSize)
         {
@@ -85,12 +79,23 @@ namespace BPMS.Services.CartableService
             return CartableDto.ConvertToDto(cartable);
         }
 
-        private WorkFlow<TStep> GetEventInstance<TStep>(string workFlowReference, Case @case) where TStep : Enum
+        private WorkFlow<TStep> GetEventInstance<TStep>(string workFlowReference, Case @case, RouteVariable routeVariable) where TStep : Enum
         {
             var workflowEnum = Enum.Parse(typeof(TStep), @case.Tracks.Single(a => a.IsLatestTrack).FlowStep.ToString()) as Enum;
             var workFlowRefereceType = Type.GetType(workFlowReference);
+            List<IFlowParameter> flowParameters = null;
+            if (routeVariable != null && routeVariable.WorkflowParameters != null && routeVariable.WorkflowParameters.Count > 0)
+            {
+                flowParameters = new List<IFlowParameter>();
+                foreach (var workflowParameter in routeVariable.WorkflowParameters)
+                {
+                    var flowParameter = new FlowParameter(routeVariable.CaseId, workflowParameter.Key, workflowParameter.Value);
+                    flowParameters.Add(flowParameter);
+                }
+            }
+
             var workflowStep = new WorkflowStep<TStep>((TStep)workflowEnum, new CyclicAssignmentMethod(), new List<Guid>(), string.Empty);
-            var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, workflowStep, null);
+            var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, workflowStep, flowParameters);
             return instance;
         }
 

@@ -6,6 +6,15 @@ namespace BPMS.Services.CartableService
     {
         public int CaseId { get; set; }
 
-        public Dictionary<string, string> WorkflowParameter { get; set; }
+        public Dictionary<string, string> WorkflowParameters { get; set; }
+
+        //  public List<Input> WorkflowParameters { get; set; }
+    }
+
+    public class Input
+    {
+        public string Key { get; set; }
+
+        public string Value { get; set; }
     }
 }
