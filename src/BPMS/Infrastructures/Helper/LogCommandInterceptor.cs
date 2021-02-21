@@ -46,22 +46,22 @@ namespace BPMS.Infrastructures.Helper
             return result;
         }
 
-        public override Task<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData data, DbDataReader result, CancellationToken cancellation)
+        public override ValueTask<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData eventData, DbDataReader result, CancellationToken cancellationToken = default)
         {
-            WriteLine(data);
-            return Task.FromResult(result);
+            WriteLine(eventData);
+            return base.ReaderExecutedAsync(command, eventData, result, cancellationToken);
         }
 
-        public override Task<object> ScalarExecutedAsync(DbCommand command, CommandExecutedEventData data, object result, CancellationToken cancellation)
+        public override ValueTask<object> ScalarExecutedAsync(DbCommand command, CommandExecutedEventData eventData, object result, CancellationToken cancellationToken = default)
         {
-            WriteLine(data);
-            return Task.FromResult(result);
+            WriteLine(eventData);
+            return base.ScalarExecutedAsync(command, eventData, result, cancellationToken);
         }
 
-        public override Task<int> NonQueryExecutedAsync(DbCommand command, CommandExecutedEventData data, int result, CancellationToken cancellation)
+        public override ValueTask<int> NonQueryExecutedAsync(DbCommand command, CommandExecutedEventData eventData, int result, CancellationToken cancellationToken = default)
         {
-            WriteLine(data);
-            return Task.FromResult(result);
+            WriteLine(eventData);
+            return base.NonQueryExecutedAsync(command, eventData, result, cancellationToken);
         }
     }
 }
