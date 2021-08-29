@@ -19,9 +19,9 @@ namespace BPMS.Infrastructures.DataAccess.Postgres
            
             
             Console.WriteLine("ConnectionString: PostgresBPMSDataDb/" +
-                              configuration.GetConnectionString("PostgresBPMSDataDb"));
+                              configuration.GetConnectionString("MiniBpDbContext"));
 
-            return new PostgresBpmsDbContext(configuration.GetConnectionString("PostgresBPMSDataDb"));
+            return new PostgresBpmsDbContext(configuration.GetConnectionString("MiniBpDbContext"));
         }
     }
 }
