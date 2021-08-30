@@ -22,7 +22,7 @@ namespace BPMS
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(a => new PostgresBpmsDbContext(connectionString)).As<BpmsDbContext>()
+            builder.Register(a => new PostgresBpmsDbContextOld(connectionString)).As<BpmsDbContext>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<PostgresExceptionHelper>().As<IDbExceptionHelper>().InstancePerLifetimeScope();
             builder.RegisterType<BpmsUnitOfWork>().As<IBpmsUnitOfWork>().InstancePerLifetimeScope();

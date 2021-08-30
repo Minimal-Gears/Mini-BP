@@ -7,13 +7,11 @@ namespace BPMS.Infrastructures.DataAccess
     public abstract class BpmsDbContext : DbContext
     {
         protected readonly string connectionString;
-
-        protected BpmsDbContext(string connectionString)
+        protected BpmsDbContext(DbContextOptions options): base(options)
         {
-            this.connectionString = connectionString;
         }
-
-        protected BpmsDbContext(string connectionString, DbContextOptions options) : base(options)
+        
+        protected BpmsDbContext(string connectionString)
         {
             this.connectionString = connectionString;
         }

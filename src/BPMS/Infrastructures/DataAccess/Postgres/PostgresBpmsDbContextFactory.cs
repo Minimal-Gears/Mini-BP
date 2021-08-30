@@ -1,5 +1,8 @@
 using System;
+using System.IO;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 
 namespace BPMS.Infrastructures.DataAccess.Postgres
@@ -8,20 +11,17 @@ namespace BPMS.Infrastructures.DataAccess.Postgres
     {
         public PostgresBpmsDbContext CreateDbContext(string[] args)
         {
-            var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            Console.WriteLine("Environment: " + envName);
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile("appsettings.json", true, true)
-                .AddJsonFile($"appsettings.{envName}.json", true);
-            var configuration = builder.Build();
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-           
+            var builder = new DbContextOptionsBuilder<PostgresBpmsDbContext>();
+            var connectionString = configuration.GetConnectionString("MiniBpDbContext");
+
+            builder.UseNpgsql(connectionString, db => db.UseNetTopologySuite());
             
-            Console.WriteLine("ConnectionString: PostgresBPMSDataDb/" +
-                              configuration.GetConnectionString("MiniBpDbContext"));
-
-            return new PostgresBpmsDbContext(configuration.GetConnectionString("MiniBpDbContext"));
+            return new PostgresBpmsDbContext(builder.Options);
         }
     }
 }

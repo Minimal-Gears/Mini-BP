@@ -72,11 +72,11 @@ namespace BPMS.Services.CartableService
             return (cartableDtos, query.Count());
         }
 
-        public async Task<CartableDto> GetById(int Id)
+        public async Task<CartableDto> GetById(int caseId)
         {
             var userId = userContext.CurrentUser.UserId;
-            var cartable = await caseRepository.Get().Include(a => a.Tracks).Include(b => b.FlowParameters).FirstOrDefaultAsync(a => a.Id == Id);
-            return CartableDto.ConvertToDto(cartable);
+            var @case = await caseRepository.Get().Include(a => a.Tracks).Include(b => b.FlowParameters).FirstOrDefaultAsync(a => a.Id == caseId);
+            return CartableDto.ConvertToDto(@case);
         }
 
         private WorkFlow<TStep> GetEventInstance<TStep>(string workFlowReference, Case @case, RouteVariable routeVariable) where TStep : Enum
