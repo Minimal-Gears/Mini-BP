@@ -2,41 +2,40 @@ using Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-namespace MiniBP.BPMS.Infrastructures.Helper
+namespace MiniBP.BPMS.Infrastructures.Helper;
+
+// You can create your own exception helper for any DBMS
+public class PostgresExceptionHelper : IDbExceptionHelper
 {
-    // You can create your own exception helper for any DBMS
-    public class PostgresExceptionHelper : IDbExceptionHelper
+    public ExceptionResult Translate(DbUpdateException ex)
     {
-        public ExceptionResult Translate(DbUpdateException ex)
+        if (ex.InnerException is PostgresException postgresException)
         {
-            if (ex.InnerException is PostgresException postgresException)
+            if (postgresException.SqlState == "23050")
             {
-                if (postgresException.SqlState == "23050")
-                {
-                    return new ExceptionResult(DbExceptionCode.Duplicate, postgresException.Detail);
-                }
+                return new ExceptionResult(DbExceptionCode.Duplicate, postgresException.Detail);
             }
-
-            throw ex;
         }
 
-        private const string DuplicateKey = "23505";
-        private const string NullValue = "23502";
+        throw ex;
+    }
 
-        public BusinessException TranslateToException(DbUpdateException ex)
+    private const string DuplicateKey = "23505";
+    private const string NullValue = "23502";
+
+    public BusinessException TranslateToException(DbUpdateException ex)
+    {
+        if (ex.InnerException is PostgresException postgresException)
         {
-            if (ex.InnerException is PostgresException postgresException)
+            switch (postgresException.SqlState)
             {
-                switch (postgresException.SqlState)
-                {
-                    case DuplicateKey:
-                        return new DuplicateException(postgresException.MessageText, postgresException.Detail);
-                    case NullValue:
-                        return new BadDataException(postgresException.MessageText, postgresException.ColumnName);
-                }
+                case DuplicateKey:
+                    return new DuplicateException(postgresException.MessageText, postgresException.Detail);
+                case NullValue:
+                    return new BadDataException(postgresException.MessageText, postgresException.ColumnName);
             }
-
-            throw ex;
         }
+
+        throw ex;
     }
 }

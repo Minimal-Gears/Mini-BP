@@ -1,8 +1,7 @@
-﻿namespace MiniBP.BPMS.Infrastructures.DataAccess
+﻿namespace MiniBP.BPMS.Infrastructures.DataAccess;
+
+public interface IBpmsUnitOfWork
 {
-    public interface IBpmsUnitOfWork
-    {
-        void Commit();
-        Task CommitAsync();
-    }
+    void Commit();
+    Task CommitAsync();
 }

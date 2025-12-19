@@ -2,62 +2,61 @@ using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using MiniBP.BPMS.Domain.Repository;
 
-namespace MiniBP.BPMS.Infrastructures.DataAccess.Repository
+namespace MiniBP.BPMS.Infrastructures.DataAccess.Repository;
+
+public class BaseRepository<TEntity> : BaseQueryService<TEntity>, IRepository<TEntity> where TEntity : class
 {
-    public class BaseRepository<TEntity> : BaseQueryService<TEntity>, IRepository<TEntity> where TEntity : class
+    public BaseRepository(BpmsDbContext context) : base(context)
     {
-        public BaseRepository(BpmsDbContext context) : base(context)
-        {
-        }
-
-        public void Update(TEntity retailer)
-        {
-            dataSet.Update(retailer);
-        }
-
-        public virtual async Task Add(TEntity entity)
-        {
-            await dataSet.AddAsync(entity);
-        }
-
-        public virtual void Remove(TEntity entity)
-        {
-            dataSet.Remove(entity);
-        }
     }
 
-    public class BaseQueryService<TEntity> : IQueryService<TEntity> where TEntity : class
+    public void Update(TEntity retailer)
     {
-        protected readonly BpmsDbContext context;
-        protected readonly DbSet<TEntity> dataSet;
+        dataSet.Update(retailer);
+    }
 
-        public BaseQueryService(BpmsDbContext context)
-        {
-            this.context = context;
-            dataSet = context.Set<TEntity>();
-        }
+    public virtual async Task Add(TEntity entity)
+    {
+        await dataSet.AddAsync(entity);
+    }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAll()
-        {
-            return await dataSet.ToListAsync();
-        }
+    public virtual void Remove(TEntity entity)
+    {
+        dataSet.Remove(entity);
+    }
+}
 
-        public virtual IQueryable<TEntity> Get()
-        {
-            return dataSet;
-        }
+public class BaseQueryService<TEntity> : IQueryService<TEntity> where TEntity : class
+{
+    protected readonly BpmsDbContext context;
+    protected readonly DbSet<TEntity> dataSet;
 
-        public async Task<IEnumerable<TEntity>> Get(string query, string orderby, /*Expression<Func<TEntity, object>>[] includes,*/int pageNumber = 1, int pageSize = 25)
-        {
-            // IIncludableQueryable<TEntity>
-            return await dataSet.Where("HixCode=@0", "6651651600")/*
-                .OrderBy(orderby)
-                .Skip((pageNumber - 1) * pageSize).Take(pageSize)*/.ToListAsync();
-        }
+    public BaseQueryService(BpmsDbContext context)
+    {
+        this.context = context;
+        dataSet = context.Set<TEntity>();
+    }
 
-        public virtual async Task<TEntity> GetById(object id)
-        {
-            return await dataSet.FindAsync(id);
-        }
+    public virtual async Task<IEnumerable<TEntity>> GetAll()
+    {
+        return await dataSet.ToListAsync();
+    }
+
+    public virtual IQueryable<TEntity> Get()
+    {
+        return dataSet;
+    }
+
+    public async Task<IEnumerable<TEntity>> Get(string query, string orderby, /*Expression<Func<TEntity, object>>[] includes,*/int pageNumber = 1, int pageSize = 25)
+    {
+        // IIncludableQueryable<TEntity>
+        return await dataSet.Where("HixCode=@0", "6651651600")/*
+            .OrderBy(orderby)
+            .Skip((pageNumber - 1) * pageSize).Take(pageSize)*/.ToListAsync();
+    }
+
+    public virtual async Task<TEntity> GetById(object id)
+    {
+        return await dataSet.FindAsync(id);
     }
 }

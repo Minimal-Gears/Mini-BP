@@ -2,8 +2,8 @@
     using System.Data.Common;
     using Microsoft.EntityFrameworkCore.Diagnostics;
 
-    namespace MiniBP.BPMS.Infrastructures.Helper
-{
+    namespace MiniBP.BPMS.Infrastructures.Helper;
+
     public class LogCommandInterceptor : DbCommandInterceptor
     {
         private static void WriteLine(CommandEventData data)
@@ -61,5 +61,4 @@
             return base.NonQueryExecutedAsync(command, eventData, result, cancellationToken);
         }
     }
-}
 #endif

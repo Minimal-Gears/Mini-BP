@@ -1,11 +1,10 @@
-namespace MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod
+namespace MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
+
+public class CyclicAssignmentMethod:IAssignmentMethod
 {
-    public class CyclicAssignmentMethod:IAssignmentMethod
+    public AssignmentMethodType AssignmentMethodType => AssignmentMethodType.Cyclic;
+    public Guid SelectedUser(IList<Guid> users)
     {
-        public AssignmentMethodType AssignmentMethodType => AssignmentMethodType.Cyclic;
-        public Guid SelectedUser(IList<Guid> users)
-        {
-            return users.First();
-        }
+        return users.First();
     }
 }

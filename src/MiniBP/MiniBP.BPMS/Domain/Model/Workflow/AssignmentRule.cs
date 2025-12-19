@@ -1,24 +1,23 @@
 using MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
 
-namespace MiniBP.BPMS.Domain.Model.Workflow
+namespace MiniBP.BPMS.Domain.Model.Workflow;
+
+public class AssignmentRule<T> where T : Enum
 {
-    public class AssignmentRule<T> where T : Enum
+    public AssignmentRule(IAssignmentMethod assignmentMethod, List<Guid> users, T step, string url)
     {
-        public AssignmentRule(IAssignmentMethod assignmentMethod, List<Guid> users, T step, string url)
-        {
-            AssignmentMethod = assignmentMethod;
-            Users = users;
-            Step = step;
-            Url = url;
-        }
-        public IAssignmentMethod AssignmentMethod { get; private set; }
-
-        public List<Guid> Users { get; private set; }
-
-        public T Step { get; private set; }
-
-        public string Url { get; private set; }
-
-        public Guid SelectedUser => AssignmentMethod.SelectedUser(Users);
+        AssignmentMethod = assignmentMethod;
+        Users = users;
+        Step = step;
+        Url = url;
     }
+    public IAssignmentMethod AssignmentMethod { get; private set; }
+
+    public List<Guid> Users { get; private set; }
+
+    public T Step { get; private set; }
+
+    public string Url { get; private set; }
+
+    public Guid SelectedUser => AssignmentMethod.SelectedUser(Users);
 }

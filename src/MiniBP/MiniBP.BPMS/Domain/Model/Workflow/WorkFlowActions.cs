@@ -1,7 +1,6 @@
-namespace MiniBP.BPMS.Domain.Model.Workflow
+namespace MiniBP.BPMS.Domain.Model.Workflow;
+
+public enum WorkFlowActions
 {
-    public enum WorkFlowActions
-    {
-        Next=1
-    }
+    Next=1
 }

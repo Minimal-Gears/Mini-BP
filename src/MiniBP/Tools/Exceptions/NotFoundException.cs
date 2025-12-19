@@ -1,9 +1,8 @@
-namespace Common.Exceptions
+namespace Common.Exceptions;
+
+public class NotFoundException : BusinessException
 {
-    public class NotFoundException : BusinessException
+    public NotFoundException(string message) : base(message)
     {
-        public NotFoundException(string message) : base(message)
-        {
-        }
     }
 }

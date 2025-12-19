@@ -1,22 +1,21 @@
-namespace MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod
+namespace MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
+
+public class ValueBaseAssignmentMethod : IAssignmentMethod
 {
-    public class ValueBaseAssignmentMethod : IAssignmentMethod
+    public ValueBaseAssignmentMethod(List<IFlowParameter> flowParameters, string parameterName)
     {
-        public ValueBaseAssignmentMethod(List<IFlowParameter> flowParameters, string parameterName)
-        {
-            FlowParameters = flowParameters;
-            ParameterName = parameterName;
-        }
+        FlowParameters = flowParameters;
+        ParameterName = parameterName;
+    }
 
-        public AssignmentMethodType AssignmentMethodType => AssignmentMethodType.ValueBase;
+    public AssignmentMethodType AssignmentMethodType => AssignmentMethodType.ValueBase;
 
-        public List<IFlowParameter> FlowParameters { get; }
+    public List<IFlowParameter> FlowParameters { get; }
         
-        public string ParameterName { get; }
+    public string ParameterName { get; }
 
-        public Guid SelectedUser(IList<Guid> users)
-        {
-            return users.First();
-        }
+    public Guid SelectedUser(IList<Guid> users)
+    {
+        return users.First();
     }
 }

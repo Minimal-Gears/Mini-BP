@@ -1,12 +1,11 @@
-namespace MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod
+namespace MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
+
+public enum AssignmentMethodType
 {
-    public enum AssignmentMethodType
-    {
-        Cyclic=1,
-        Manual=2,
-        SelfService=3,
-        ValueBase=4,
-        SelfServiceValueBase=5,
-        CyclicValueBase=6
-    }
+    Cyclic=1,
+    Manual=2,
+    SelfService=3,
+    ValueBase=4,
+    SelfServiceValueBase=5,
+    CyclicValueBase=6
 }

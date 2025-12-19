@@ -1,8 +1,7 @@
 using MiniBP.BPMS.Domain.Model.Cartable;
 
-namespace MiniBP.BPMS.Domain.Repository
+namespace MiniBP.BPMS.Domain.Repository;
+
+public interface ICaseRepository : IRepository<Case>// where TStep : Enum
 {
-    public interface ICaseRepository : IRepository<Case>// where TStep : Enum
-    {
-    }
 }

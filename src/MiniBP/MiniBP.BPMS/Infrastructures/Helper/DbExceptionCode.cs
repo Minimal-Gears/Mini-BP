@@ -1,8 +1,7 @@
-namespace MiniBP.BPMS.Infrastructures.Helper
+namespace MiniBP.BPMS.Infrastructures.Helper;
+
+public enum DbExceptionCode
 {
-    public enum DbExceptionCode
-    {
-        Unknown = 0,
-        Duplicate
-    }
+    Unknown = 0,
+    Duplicate
 }

@@ -1,10 +1,9 @@
-namespace Api.Services.WorkflowRegistration
+namespace Api.Services.WorkflowRegistration;
+
+public enum GettingLoanSteps
 {
-    public enum GettingLoanSteps
-    {
-        Apply = 1,
-        PrimitiveCheck = 2,
-        PreparingDocuments = 3,
-        Payment = 4
-    }
+    Apply = 1,
+    PrimitiveCheck = 2,
+    PreparingDocuments = 3,
+    Payment = 4
 }

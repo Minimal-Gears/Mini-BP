@@ -1,8 +1,7 @@
-namespace Common
+namespace Common;
+
+public interface IUserContext
 {
-    public interface IUserContext
-    {
-        UserDto CurrentUser { get; }
+    UserDto CurrentUser { get; }
         
-    }
 }

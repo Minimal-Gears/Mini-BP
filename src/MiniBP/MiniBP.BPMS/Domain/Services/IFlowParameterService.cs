@@ -1,9 +1,8 @@
-namespace MiniBP.BPMS.Domain.Services
-{
-    public interface IFlowParameterService
-    {
-        string GetParameterValue(string parameterName);
+namespace MiniBP.BPMS.Domain.Services;
 
-        Dictionary<string, string> GetAllParameters();
-    }
+public interface IFlowParameterService
+{
+    string GetParameterValue(string parameterName);
+
+    Dictionary<string, string> GetAllParameters();
 }

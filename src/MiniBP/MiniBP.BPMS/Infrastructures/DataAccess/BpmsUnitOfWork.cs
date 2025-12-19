@@ -1,34 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniBP.BPMS.Infrastructures.Helper;
 
-namespace MiniBP.BPMS.Infrastructures.DataAccess
+namespace MiniBP.BPMS.Infrastructures.DataAccess;
+
+public sealed class BpmsUnitOfWork : IBpmsUnitOfWork
 {
-    public sealed class BpmsUnitOfWork : IBpmsUnitOfWork
+    private readonly BpmsDbContext context;
+    private readonly IDbExceptionHelper exceptionHelper;
+
+    public BpmsUnitOfWork(BpmsDbContext context, IDbExceptionHelper exceptionHelper)
     {
-        private readonly BpmsDbContext context;
-        private readonly IDbExceptionHelper exceptionHelper;
+        this.context = context;
+        this.exceptionHelper = exceptionHelper;
+    }
 
-        public BpmsUnitOfWork(BpmsDbContext context, IDbExceptionHelper exceptionHelper)
+    public void Commit()
+    {
+        context.SaveChanges();
+    }
+
+    public async Task CommitAsync()
+    {
+        try
         {
-            this.context = context;
-            this.exceptionHelper = exceptionHelper;
+            await context.SaveChangesAsync();
         }
-
-        public void Commit()
+        catch (DbUpdateException ex)
         {
-            context.SaveChanges();
-        }
-
-        public async Task CommitAsync()
-        {
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                throw exceptionHelper.TranslateToException(ex);
-            }
+            throw exceptionHelper.TranslateToException(ex);
         }
     }
 }

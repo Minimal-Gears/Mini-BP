@@ -1,25 +1,22 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MiniBP.BPMS.Domain.Model
+namespace MiniBP.BPMS.Domain.Model;
+
+public interface IEntity
 {
-    public interface IEntity
-    {
-        [Key]
-        int Id { get; }
-    }
+    [Key]
+    int Id { get; }
+}
 
 
-    public interface IGetAudit
-    {
-        DateTime CreatedOn { get; }
-        DateTime ModifiedOn { get; }
-    }
+public interface IGetAudit
+{
+    DateTime CreatedOn { get; }
+    DateTime ModifiedOn { get; }
+}
 
 
 //    public interface IHaveNotes
 //    {
 //        IEnumerable<Note> Notes { get; }
 //    }
-
-   
-}

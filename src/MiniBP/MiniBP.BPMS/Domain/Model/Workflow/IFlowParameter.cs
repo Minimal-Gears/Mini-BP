@@ -1,9 +1,8 @@
-namespace MiniBP.BPMS.Domain.Model.Workflow
-{
-    public interface IFlowParameter
-    {
-        string Key { get; }
+namespace MiniBP.BPMS.Domain.Model.Workflow;
 
-        string Value { get; }
-    }
+public interface IFlowParameter
+{
+    string Key { get; }
+
+    string Value { get; }
 }
