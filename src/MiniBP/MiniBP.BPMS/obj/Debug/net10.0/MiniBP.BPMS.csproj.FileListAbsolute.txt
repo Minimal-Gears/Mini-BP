@@ -1,0 +1,17 @@
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.BPMS.GeneratedMSBuildEditorConfig.editorconfig
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.BPMS.AssemblyInfoInputs.cache
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.BPMS.AssemblyInfo.cs
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.BPMS.csproj.CoreCompileInputs.cache
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.BPMS.sourcelink.json
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.BPMS.csproj.AssemblyReference.cache
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/EFCoreNpgsqlNetTopologySuite.cs
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/bin/Debug/net10.0/MiniBP.BPMS.deps.json
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/bin/Debug/net10.0/MiniBP.BPMS.dll
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/bin/Debug/net10.0/MiniBP.BPMS.pdb
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/bin/Debug/net10.0/Tools.dll
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/bin/Debug/net10.0/Tools.pdb
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.B.01FC0389.Up2Date
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.BPMS.dll
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/refint/MiniBP.BPMS.dll
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/MiniBP.BPMS.pdb
+/home/ramin/Minimal-Gears/Mini-BP/src/MiniBP/MiniBP.BPMS/obj/Debug/net10.0/ref/MiniBP.BPMS.dll

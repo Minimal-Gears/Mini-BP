@@ -1,0 +1,6 @@
+@MiniBP.Api_HostAddress = http://localhost:5121
+
+GET {{MiniBP.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

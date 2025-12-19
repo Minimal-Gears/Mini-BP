@@ -2,5 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/src/.vs/Mini-BP
+/src/.vs
 /.vs
+/src/.idea/
+/src/MiniBP/.idea/
