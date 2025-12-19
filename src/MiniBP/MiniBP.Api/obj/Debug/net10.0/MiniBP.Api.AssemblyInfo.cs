@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniBP.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6586c26601d4cde470825f807dfd2d274ca361cb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68174a4915ba292956e66aeef12b5f46409c48f7")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniBP.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniBP.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
