@@ -7,3 +7,5 @@
 /src/.idea/
 /src/MiniBP/.idea/
 /.idea/
+/src/**/obj/*
+/src/**/bin/*
