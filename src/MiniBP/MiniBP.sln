@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{19F4ED
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{6FF2A8AD-0C44-4B2F-BE74-F7F06B61EC75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBP.Infrastructure", "MiniBP.Infrastructure\MiniBP.Infrastructure.csproj", "{F039FE30-9FCB-44DE-B586-DE24363C0061}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{6FF2A8AD-0C44-4B2F-BE74-F7F06B61EC75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FF2A8AD-0C44-4B2F-BE74-F7F06B61EC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FF2A8AD-0C44-4B2F-BE74-F7F06B61EC75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F039FE30-9FCB-44DE-B586-DE24363C0061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F039FE30-9FCB-44DE-B586-DE24363C0061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F039FE30-9FCB-44DE-B586-DE24363C0061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F039FE30-9FCB-44DE-B586-DE24363C0061}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6FF2A8AD-0C44-4B2F-BE74-F7F06B61EC75} = {19F4EDAC-D782-4A27-8027-3DAE07EE6397}

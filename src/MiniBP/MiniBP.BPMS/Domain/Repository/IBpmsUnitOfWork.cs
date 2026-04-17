@@ -1,4 +1,4 @@
-﻿namespace MiniBP.BPMS.Infrastructures.DataAccess;
+﻿namespace MiniBP.BPMS.Domain.Repository;
 
 public interface IBpmsUnitOfWork
 {

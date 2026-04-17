@@ -2,7 +2,7 @@ using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using MiniBP.BPMS.Domain.Repository;
 
-namespace MiniBP.BPMS.Infrastructures.DataAccess.Repository;
+namespace MiniBP.Infrastructure.DataAccess.Repository;
 
 public class BaseRepository<TEntity> : BaseQueryService<TEntity>, IRepository<TEntity> where TEntity : class
 {

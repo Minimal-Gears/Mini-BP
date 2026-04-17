@@ -1,4 +1,4 @@
-namespace MiniBP.BPMS.Infrastructures.Helper;
+namespace MiniBP.Infrastructure.Helper;
 
 public struct ExceptionResult
 {

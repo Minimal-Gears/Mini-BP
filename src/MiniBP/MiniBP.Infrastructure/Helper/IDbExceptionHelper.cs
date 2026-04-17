@@ -1,7 +1,7 @@
 using Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace MiniBP.BPMS.Infrastructures.Helper;
+namespace MiniBP.Infrastructure.Helper;
 
 public interface IDbExceptionHelper
 {

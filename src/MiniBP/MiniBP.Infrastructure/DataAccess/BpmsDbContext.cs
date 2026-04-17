@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MiniBP.BPMS.Domain.Model.Cartable;
-using MiniBP.BPMS.Infrastructures.Helper;
+using MiniBP.Infrastructure.Helper;
 
-namespace MiniBP.BPMS.Infrastructures.DataAccess;
+namespace MiniBP.Infrastructure.DataAccess;
 
 public abstract class BpmsDbContext : DbContext
 {
