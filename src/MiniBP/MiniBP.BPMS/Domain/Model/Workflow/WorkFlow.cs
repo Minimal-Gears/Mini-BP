@@ -4,14 +4,14 @@ namespace MiniBP.BPMS.Domain.Model.Workflow;
 
 public abstract class WorkFlow<TStep> where TStep : Enum
 {
-    protected WorkFlow(WorkflowStep<TStep> initialState, List<IFlowParameter> flowParameters)
+    protected WorkFlow(List<IFlowParameter> flowParameters)
     {
-        FlowHandler = new StateMachine<WorkflowStep<TStep>, WorkFlowActions>(initialState);
+        //FlowHandler = new StateMachine<WorkflowStep<TStep>, WorkFlowActions>(initialState);
         FlowParameters = flowParameters;
-        WorkflowSteps = RegistrationWorkflowSteps();
+        RegistrationWorkflowSteps();
     }
 
-    public StateMachine<WorkflowStep<TStep>, WorkFlowActions> FlowHandler { get; private set; }
+    protected StateMachine<WorkflowStep<TStep>, WorkFlowActions> FlowHandler { get; set; }
 
     public abstract string Name { get; }
 
@@ -22,10 +22,11 @@ public abstract class WorkFlow<TStep> where TStep : Enum
     public WorkflowStep<TStep> Next()
     {
         FlowHandler.Fire(WorkFlowActions.Next);
-        return WorkflowSteps.FirstOrDefault(a => Equals(a.Step, FlowHandler.State.Step) && Equals(a.IsFinal, FlowHandler.State.IsFinal));
+        return FlowHandler.State;
+        //return WorkflowSteps.FirstOrDefault(a => Equals(a.Step, FlowHandler.State.Step) && Equals(a.IsFinal, FlowHandler.State.IsFinal));
     }
 
-    public List<WorkflowStep<TStep>> WorkflowSteps { get; set; }
+    //public List<WorkflowStep<TStep>> WorkflowSteps { get; set; }
 
-    protected abstract List<WorkflowStep<TStep>> RegistrationWorkflowSteps();
+    protected abstract void RegistrationWorkflowSteps();
 }

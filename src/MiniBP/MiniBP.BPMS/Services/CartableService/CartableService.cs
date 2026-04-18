@@ -90,7 +90,7 @@ public class CartableService : BaseService //where TStep : Enum
         }
 
         var workflowStep = new WorkflowStep<TStep>((TStep)workflowEnum, new CyclicAssignmentMethod(), new List<Guid>(), string.Empty);
-        var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, workflowStep, flowParameters);
+        var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, flowParameters);
         return instance;
     }
 

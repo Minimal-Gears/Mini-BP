@@ -33,7 +33,6 @@ builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<CartableService>();
 builder.Services.AddScoped<IDbExceptionHelper, PostgresExceptionHelper>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -57,22 +56,14 @@ app.MapGet("/weatherforecast", () => {
    .WithName("GetWeatherForecast");
 
 app.MapGet("/test", async (CartableService cartableService) => {
-                        var initStep = new WorkflowStep<GettingLoanSteps>(GettingLoanSteps.Apply,
-                                                                          new CyclicAssignmentMethod(),
-                                                                          new List<Guid>() { Guid.NewGuid() },
-                                                                          string.Empty);
-
-                        GettingLoanFlow flow = new GettingLoanFlow(initStep, []);
+                        GettingLoanFlow flow = new GettingLoanFlow([]);
 
                         StartWorkFlowDto<GettingLoanSteps> startParams = new StartWorkFlowDto<GettingLoanSteps>(flow, "TestTitle", Guid.NewGuid(), []);
 
                         var newCase = await cartableService.Start(startParams);
 
-                        await cartableService.Route<GettingLoanSteps>(new RouteVariable()
-                                                                    {
-                                                                        CaseId =  newCase.Id
-                                                                    });
-                        
+                        await cartableService.Route<GettingLoanSteps>(new RouteVariable() { CaseId = newCase.Id });
+
                         return "OK";
                     })
    .WithName("Test");

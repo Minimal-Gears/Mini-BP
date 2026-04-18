@@ -3,29 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using MiniBP.BPMS.Domain.Model.Workflow;
 using MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
+using Stateless;
 
 namespace Api.Services.WorkflowRegistration;
 
 public class GettingLoanFlow : WorkFlow<GettingLoanSteps>
 {
-    public GettingLoanFlow(WorkflowStep<GettingLoanSteps> initialState, List<IFlowParameter> flowParameters)
-        : base(initialState, flowParameters)
-    {
-    }
+    public GettingLoanFlow(List<IFlowParameter> flowParameters)
+        : base(flowParameters) { }
 
     public override string Name => "GettingLoanFlow";
 
     public override WorkflowStep<GettingLoanSteps> StartStep => Step_Apply;
 
-    public WorkflowStep<GettingLoanSteps> Step_Apply { get; private set; }
-    public WorkflowStep<GettingLoanSteps> Step_PrimitiveCheck { get; private set; }
-    public WorkflowStep<GettingLoanSteps> Step_PreparingDocuments { get; private set; }
-    public WorkflowStep<GettingLoanSteps> Step_Payment { get; private set; }
+    protected WorkflowStep<GettingLoanSteps> Step_Apply { get; private set; }
+    protected WorkflowStep<GettingLoanSteps> Step_PrimitiveCheck { get; private set; }
+    protected WorkflowStep<GettingLoanSteps> Step_PreparingDocuments { get; private set; }
+    protected WorkflowStep<GettingLoanSteps> Step_Payment { get; private set; }
 
-    protected override List<WorkflowStep<GettingLoanSteps>> RegistrationWorkflowSteps()
+    protected override void RegistrationWorkflowSteps()
     {
-        var workflowSteps = new List<WorkflowStep<GettingLoanSteps>>();
-
         Step_Apply = new WorkflowStep<GettingLoanSteps>(GettingLoanSteps.Apply,
                                                         new CyclicAssignmentMethod(),
                                                         new List<Guid>() { Guid.NewGuid() },
@@ -44,16 +41,9 @@ public class GettingLoanFlow : WorkFlow<GettingLoanSteps>
         Step_Payment = new WorkflowStep<GettingLoanSteps>(GettingLoanSteps.Payment,
                                                           new CyclicAssignmentMethod(),
                                                           new List<Guid>() { Guid.NewGuid() },
-                                                          string.Empty);
+                                                          string.Empty, true);
 
-        workflowSteps.Add(Step_Apply);
-
-        workflowSteps.Add(Step_PrimitiveCheck);
-
-        workflowSteps.Add(Step_PreparingDocuments);
-
-        workflowSteps.Add(Step_Payment);
-
+        FlowHandler = new StateMachine<WorkflowStep<GettingLoanSteps>, WorkFlowActions>(Step_Apply);
         FlowHandler.Configure(StartStep)
            .OnEntry(() => { })
            .Permit(WorkFlowActions.Next, Step_PrimitiveCheck);
@@ -65,7 +55,5 @@ public class GettingLoanFlow : WorkFlow<GettingLoanSteps>
         FlowHandler.Configure(Step_PreparingDocuments)
            .OnEntry(() => { })
            .Permit(WorkFlowActions.Next, Step_Payment);
-
-        return workflowSteps;
     }
 }
