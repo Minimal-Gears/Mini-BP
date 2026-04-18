@@ -20,8 +20,7 @@ public class CartableService : BaseService //where TStep : Enum
 
     public CartableService(ICaseRepository caseRepository, IBpmsUnitOfWork bpmsUnitOfWork,
                            ILogger<CartableService> logger,
-                           IUserContext userContext
-        ) : base(userContext)
+                           IUserContext userContext) : base(userContext)
     {
         this.caseRepository = caseRepository;
         this.bpmsUnitOfWork = bpmsUnitOfWork;
@@ -42,19 +41,19 @@ public class CartableService : BaseService //where TStep : Enum
                        .Include(a => a.Tracks)
                        .Include(a => a.FlowParameters)
                        .FirstAsync(b => b.Id == routeVariable.CaseId);
-        var workFlow = GetEventInstance<TStep>(@case.WorkFlowReference, @case, routeVariable);
-        var currentStep = workFlow.Next();
-        @case.Route<TStep>(currentStep);
+
+        var workFlow = GetFlowInstance<TStep>(@case.WorkFlowReference, @case, routeVariable);
+        var nextStep = workFlow.Next();
+        @case.Route<TStep>(nextStep);
         caseRepository.Update(@case);
-        try
-        {
-            bpmsUnitOfWork.Commit();
+        try {
+            await bpmsUnitOfWork.CommitAsync();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             logger.LogError(ex, "CaseRepository");
             throw;
         }
+
         return @case;
     }
 
@@ -74,22 +73,18 @@ public class CartableService : BaseService //where TStep : Enum
         return CartableDto.ConvertToDto(@case);
     }
 
-    private WorkFlow<TStep> GetEventInstance<TStep>(string workFlowReference, Case @case, RouteVariable routeVariable) where TStep : Enum
+    private WorkFlow<TStep> GetFlowInstance<TStep>(string workFlowReference, Case @case, RouteVariable routeVariable) where TStep : Enum
     {
-        var workflowEnum = Enum.Parse(typeof(TStep), @case.Tracks.Single(a => a.IsLatestTrack).FlowStep.ToString()) as Enum;
         var workFlowRefereceType = Type.GetType(workFlowReference);
         List<IFlowParameter> flowParameters = null;
-        if (routeVariable != null && routeVariable.WorkflowParameters != null && routeVariable.WorkflowParameters.Count > 0)
-        {
+        if (routeVariable != null && routeVariable.WorkflowParameters != null && routeVariable.WorkflowParameters.Any()) {
             flowParameters = new List<IFlowParameter>();
-            foreach (var workflowParameter in routeVariable.WorkflowParameters)
-            {
+            foreach (var workflowParameter in routeVariable.WorkflowParameters) {
                 var flowParameter = new FlowParameter(routeVariable.CaseId, workflowParameter.Key, workflowParameter.Value);
                 flowParameters.Add(flowParameter);
             }
         }
 
-        var workflowStep = new WorkflowStep<TStep>((TStep)workflowEnum, new CyclicAssignmentMethod(), new List<Guid>(), string.Empty);
         var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, flowParameters);
         return instance;
     }
@@ -115,8 +110,7 @@ public class CartableService : BaseService //where TStep : Enum
 
     private async Task<Case> Create<TStep>(CreateCaseDto createCaseDto) where TStep : Enum
     {
-        var cartableCase = new Case(
-                                    createCaseDto.Title,
+        var cartableCase = new Case(createCaseDto.Title,
                                     createCaseDto.WorkFlowTitle,
                                     createCaseDto.LastStepTitle,
                                     createCaseDto.WorkFlowReference,
@@ -127,12 +121,10 @@ public class CartableService : BaseService //where TStep : Enum
                                     createCaseDto.FlowParameters);
 
         await caseRepository.Add(cartableCase);
-        try
-        {
+        try {
             await bpmsUnitOfWork.CommitAsync();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             logger.LogError(ex, "RegisterNewRetailerRepository");
             throw;
         }
