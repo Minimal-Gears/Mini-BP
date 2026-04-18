@@ -2,13 +2,16 @@ using Stateless;
 
 namespace MiniBP.BPMS.Domain.Model.Workflow;
 
-public abstract class WorkFlow<TStep> : StateMachine<WorkflowStep<TStep>, WorkFlowActions> where TStep : Enum
+public abstract class WorkFlow<TStep> where TStep : Enum
 {
-    protected WorkFlow(WorkflowStep<TStep> initialState, List<IFlowParameter> flowParameters) : base(initialState)
+    protected WorkFlow(WorkflowStep<TStep> initialState, List<IFlowParameter> flowParameters)
     {
+        FlowHandler = new StateMachine<WorkflowStep<TStep>, WorkFlowActions>(initialState);
         FlowParameters = flowParameters;
         WorkflowSteps = RegistrationWorkflowSteps();
     }
+
+    public StateMachine<WorkflowStep<TStep>, WorkFlowActions> FlowHandler { get; private set; }
 
     public abstract string Name { get; }
 
@@ -18,8 +21,8 @@ public abstract class WorkFlow<TStep> : StateMachine<WorkflowStep<TStep>, WorkFl
 
     public WorkflowStep<TStep> Next()
     {
-        Fire(WorkFlowActions.Next);
-        return WorkflowSteps.FirstOrDefault(a => Equals(a.Step, State.Step) && Equals(a.IsFinal, State.IsFinal));
+        FlowHandler.Fire(WorkFlowActions.Next);
+        return WorkflowSteps.FirstOrDefault(a => Equals(a.Step, FlowHandler.State.Step) && Equals(a.IsFinal, FlowHandler.State.IsFinal));
     }
 
     public List<WorkflowStep<TStep>> WorkflowSteps { get; set; }
