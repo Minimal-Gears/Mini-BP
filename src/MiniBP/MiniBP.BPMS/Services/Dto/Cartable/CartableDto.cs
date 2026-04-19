@@ -23,9 +23,9 @@ public class CartableDto
 
     public int EntityId { get; set; }
 
-    public CaseTrackerDto LastTrack { get; set; }
+    public CaseTrackDto LastTrack { get; set; }
 
-    public List<CaseTrackerDto> Tracks { get; set; }
+    public List<CaseTrackDto> Tracks { get; set; }
 
     public List<FlowParameterDto> FlowParameters { get; set; }
 
@@ -44,7 +44,7 @@ public class CartableDto
                        Title = cartable.Title,
                        WorkFlowTitle = cartable.WorkFlowTitle,
                        WorkFlowReference = cartable.WorkFlowReference,
-                       LastTrack = new CaseTrackerDto
+                       LastTrack = new CaseTrackDto
                                        {
                                            Id = lastTrack.Id,
                                            CaseId = lastTrack.CaseId,

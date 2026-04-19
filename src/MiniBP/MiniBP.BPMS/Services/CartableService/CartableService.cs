@@ -6,8 +6,8 @@ using MiniBP.BPMS.Domain.Model.Cartable;
 using MiniBP.BPMS.Domain.Model.Workflow;
 using MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
 using MiniBP.BPMS.Domain.Repository;
+using MiniBP.BPMS.Services.CartableService.Params;
 using MiniBP.BPMS.Services.Dto.Cartable;
-using MiniBP.BPMS.Services.Dto.WorkFlow;
 
 namespace MiniBP.BPMS.Services.CartableService;
 
@@ -28,9 +28,9 @@ public class CartableService : BaseService //where TStep : Enum
         this.userContext = userContext;
     }
 
-    public async Task<Case> Start<TStep>(StartWorkFlowDto<TStep> startWorkFlowDto) where TStep : Enum
+    public async Task<Case> Start<TStep>(StartWorkFlowParams<TStep> startWorkFlowParams) where TStep : Enum
     {
-        var @case = await Create(startWorkFlowDto);
+        var @case = await Create(startWorkFlowParams);
         return @case;
     }
 
@@ -89,36 +89,36 @@ public class CartableService : BaseService //where TStep : Enum
         return instance;
     }
 
-    private async Task<Case> Create<TStep>(StartWorkFlowDto<TStep> startWorkFlowDto) where TStep : Enum
+    private async Task<Case> Create<TStep>(StartWorkFlowParams<TStep> startWorkFlowParams) where TStep : Enum
     {
-        var createCaseDto = new CreateCaseDto
+        var createCaseDto = new CreateCaseParams
                                 {
-                                    Title = startWorkFlowDto.Title,
-                                    WorkFlowTitle = startWorkFlowDto.WorkFlowInstance.Name,
-                                    LastStepTitle = startWorkFlowDto.WorkFlowInstance.StartStep.Step.ToString(),
-                                    WorkFlowReference = startWorkFlowDto.WorkFlowInstance.GetType().AssemblyQualifiedName,
+                                    Title = startWorkFlowParams.Title,
+                                    WorkFlowTitle = startWorkFlowParams.WorkFlowInstance.Name,
+                                    LastStepTitle = startWorkFlowParams.WorkFlowInstance.StartStep.Step.ToString(),
+                                    WorkFlowReference = startWorkFlowParams.WorkFlowInstance.GetType().AssemblyQualifiedName,
                                     State = CaseStates.Draft,
-                                    FlowStep = Convert.ToInt32(startWorkFlowDto.WorkFlowInstance.StartStep.Step),
-                                    CreatorId = startWorkFlowDto.CurrentUserId,
-                                    CurrentUserId = startWorkFlowDto.CurrentUserId,
-                                    FlowParameters = startWorkFlowDto.FlowParameters
+                                    FlowStep = Convert.ToInt32(startWorkFlowParams.WorkFlowInstance.StartStep.Step),
+                                    CreatorId = startWorkFlowParams.CurrentUserId,
+                                    CurrentUserId = startWorkFlowParams.CurrentUserId,
+                                    FlowParameters = startWorkFlowParams.FlowParameters
                                 };
 
         var @case = await Create<TStep>(createCaseDto);
         return @case;
     }
 
-    private async Task<Case> Create<TStep>(CreateCaseDto createCaseDto) where TStep : Enum
+    private async Task<Case> Create<TStep>(CreateCaseParams createCaseParams) where TStep : Enum
     {
-        var cartableCase = new Case(createCaseDto.Title,
-                                    createCaseDto.WorkFlowTitle,
-                                    createCaseDto.LastStepTitle,
-                                    createCaseDto.WorkFlowReference,
-                                    createCaseDto.State,
-                                    createCaseDto.FlowStep,
-                                    createCaseDto.CreatorId,
-                                    createCaseDto.CurrentUserId,
-                                    createCaseDto.FlowParameters);
+        var cartableCase = new Case(createCaseParams.Title,
+                                    createCaseParams.WorkFlowTitle,
+                                    createCaseParams.LastStepTitle,
+                                    createCaseParams.WorkFlowReference,
+                                    createCaseParams.State,
+                                    createCaseParams.FlowStep,
+                                    createCaseParams.CreatorId,
+                                    createCaseParams.CurrentUserId,
+                                    createCaseParams.FlowParameters);
 
         await caseRepository.Add(cartableCase);
         try {

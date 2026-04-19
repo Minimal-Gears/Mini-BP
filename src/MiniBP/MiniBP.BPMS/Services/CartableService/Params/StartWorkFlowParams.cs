@@ -1,10 +1,10 @@
 using MiniBP.BPMS.Domain.Model.Workflow;
 
-namespace MiniBP.BPMS.Services.Dto.WorkFlow;
+namespace MiniBP.BPMS.Services.CartableService.Params;
 
-public class StartWorkFlowDto<TStep> where TStep:Enum
+public class StartWorkFlowParams<TStep> where TStep:Enum
 {
-    public StartWorkFlowDto(WorkFlow<TStep> workFlowInstance, string title, Guid currentUserId, Dictionary<string, string> flowParameters)
+    public StartWorkFlowParams(WorkFlow<TStep> workFlowInstance, string title, Guid currentUserId, Dictionary<string, string> flowParameters)
     {
         WorkFlowInstance = workFlowInstance;
         Title = title;

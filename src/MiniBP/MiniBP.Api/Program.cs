@@ -6,7 +6,7 @@ using MiniBP.BPMS.Domain.Model.Workflow;
 using MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
 using MiniBP.BPMS.Domain.Repository;
 using MiniBP.BPMS.Services.CartableService;
-using MiniBP.BPMS.Services.Dto.WorkFlow;
+using MiniBP.BPMS.Services.CartableService.Params;
 using MiniBP.Infrastructure.DataAccess;
 using MiniBP.Infrastructure.DataAccess.Postgres;
 using MiniBP.Infrastructure.DataAccess.Repository;
@@ -42,23 +42,10 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 
-var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-
-app.MapGet("/weatherforecast", () => {
-                                   var forecast = Enumerable.Range(1, 5).Select(index =>
-                                                                                    new WeatherForecast(DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                                                                                                        Random.Shared.Next(-20, 55),
-                                                                                                        summaries[Random.Shared.Next(summaries.Length)]))
-                                      .ToArray();
-
-                                   return forecast;
-                               })
-   .WithName("GetWeatherForecast");
-
 app.MapGet("/test", async (CartableService cartableService) => {
                         GettingLoanFlow flow = new GettingLoanFlow([]);
 
-                        StartWorkFlowDto<GettingLoanSteps> startParams = new StartWorkFlowDto<GettingLoanSteps>(flow, "TestTitle", Guid.NewGuid(), []);
+                        StartWorkFlowParams<GettingLoanSteps> startParams = new StartWorkFlowParams<GettingLoanSteps>(flow, "TestTitle", Guid.NewGuid(), []);
 
                         var newCase = await cartableService.Start(startParams);
 
@@ -69,8 +56,3 @@ app.MapGet("/test", async (CartableService cartableService) => {
    .WithName("Test");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

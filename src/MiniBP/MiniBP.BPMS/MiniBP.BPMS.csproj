@@ -21,4 +21,8 @@
       <ProjectReference Include="..\Tools\Tools.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\Dto\WorkFlow\" />
+    </ItemGroup>
+
 </Project>

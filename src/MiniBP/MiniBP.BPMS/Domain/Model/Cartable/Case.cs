@@ -23,7 +23,7 @@ public class Case : StateMachine<CaseStates, CartableTiggers>, IEntity// where T
         WorkFlowReference = workFlowReference;
         CreatorId = creatorId;
         FlowParameters = new List<FlowParameter>();
-        Tracks = new List<CaseTracker>();
+        Tracks = new List<CaseTrack>();
         AddFlowParameters(flowParameters);
         AddCaseTrack(
                      Id,
@@ -83,7 +83,7 @@ public class Case : StateMachine<CaseStates, CartableTiggers>, IEntity// where T
 
     public Guid? CreatorId { get; private set; }
 
-    public List<CaseTracker> Tracks { get; set; }
+    public List<CaseTrack> Tracks { get; set; }
 
     public List<FlowParameter> FlowParameters { get; set; }
 
@@ -153,7 +153,7 @@ public class Case : StateMachine<CaseStates, CartableTiggers>, IEntity// where T
         string url,
         DateTime creationDate)
     {
-        var caseTrack = new CaseTracker(
+        var caseTrack = new CaseTrack(
                                         caseId,
                                         title,
                                         stepTitle,
