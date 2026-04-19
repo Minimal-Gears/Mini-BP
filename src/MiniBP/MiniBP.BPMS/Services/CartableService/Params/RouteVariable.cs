@@ -1,4 +1,4 @@
-namespace MiniBP.BPMS.Services.CartableService;
+namespace MiniBP.BPMS.Services.CartableService.Params;
 
 public class RouteVariable
 {

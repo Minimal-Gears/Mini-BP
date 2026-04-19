@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace MiniBP.BPMS.Infrastructures.DataAccess.Postgres;
+namespace MiniBP.Infrastructure.DataAccess.Postgres;
 
 public class PostgresBpmsDbContext:BpmsDbContext
 {
@@ -11,7 +11,7 @@ public class PostgresBpmsDbContext:BpmsDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasPostgresExtension("postgis");
+        //modelBuilder.HasPostgresExtension("postgis");
         modelBuilder.UseIdentityAlwaysColumns();
     }
 }

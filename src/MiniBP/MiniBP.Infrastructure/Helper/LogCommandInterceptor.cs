@@ -2,7 +2,7 @@
     using System.Data.Common;
     using Microsoft.EntityFrameworkCore.Diagnostics;
 
-    namespace MiniBP.BPMS.Infrastructures.Helper;
+    namespace MiniBP.Infrastructure.Helper;
 
     public class LogCommandInterceptor : DbCommandInterceptor
     {

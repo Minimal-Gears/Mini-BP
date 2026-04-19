@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MiniBP.BPMS.Infrastructures.Helper;
+using MiniBP.BPMS.Domain.Repository;
+using MiniBP.Infrastructure.Helper;
 
-namespace MiniBP.BPMS.Infrastructures.DataAccess;
+namespace MiniBP.Infrastructure.DataAccess;
 
 public sealed class BpmsUnitOfWork : IBpmsUnitOfWork
 {

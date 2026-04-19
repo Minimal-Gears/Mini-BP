@@ -6,11 +6,11 @@ namespace Api.Model;
 
 public class UserContext : IUserContext
 {
-    private readonly IHttpContextAccessor contextAccessor;
+    //private readonly IHttpContextAccessor contextAccessor;
 
-    public UserContext(IHttpContextAccessor contextAccessor)
+    public UserContext()
     {
-        this.contextAccessor = contextAccessor;
+        //this.contextAccessor = contextAccessor;
     }
 
     // public UserDto CurrentUser => new UserDto(Guid.Parse(contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value),

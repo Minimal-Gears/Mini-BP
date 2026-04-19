@@ -2,7 +2,7 @@ using MiniBP.BPMS.Domain.Model.Cartable;
 
 namespace MiniBP.BPMS.Services.Dto.Cartable;
 
-public class CaseTrackerDto
+public class CaseTrackDto
 {
     public int Id { get; set; }
 

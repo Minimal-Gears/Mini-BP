@@ -2,7 +2,7 @@ using Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-namespace MiniBP.BPMS.Infrastructures.Helper;
+namespace MiniBP.Infrastructure.Helper;
 
 // You can create your own exception helper for any DBMS
 public class PostgresExceptionHelper : IDbExceptionHelper

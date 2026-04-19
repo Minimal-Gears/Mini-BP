@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MiniBP.BPMS.Domain.Model.Cartable;
 
-public class CaseTracker : IEntity
+public class CaseTrack : IEntity
 {
-    public CaseTracker(
+    public CaseTrack(
         int caseId,
         string title,
         string stepTitle,
@@ -30,7 +30,7 @@ public class CaseTracker : IEntity
         CreationDate = creationDate;
     }
 
-    private CaseTracker()
+    private CaseTrack()
     {
 
     }
