@@ -7,5 +7,6 @@ public enum AssignmentMethodType
     SelfService=3,
     ValueBase=4,
     SelfServiceValueBase=5,
-    CyclicValueBase=6
+    CyclicValueBase=6,
+    FireBase=7
 }

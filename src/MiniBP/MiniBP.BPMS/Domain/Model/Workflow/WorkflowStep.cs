@@ -19,28 +19,38 @@ public class WorkflowStep<TStep> where TStep : Enum
 
     public string Url { get; private set; }
 
-    public Guid SelectedUser => AssignmentMethod.SelectedUser(Users);
+    //public Guid SelectedUser => AssignmentMethod.SelectedUser(Users);
 
     public TStep Step { get; set; }
 
     public bool IsFinal { get; }
 
-
     public override bool Equals(object obj)
     {
         var item = obj as WorkflowStep<TStep>;
 
-        if (item == null)
-        {
+        if (item == null) {
             return false;
         }
 
         return Step.Equals(item.Step) && IsFinal.Equals(item.IsFinal);
     }
 
-
     public override int GetHashCode()
     {
         return Step.GetHashCode();
+    }
+
+    public Guid SelectUser(Guid? userId = null)
+    {
+        if (userId != null) {
+            if (!Users.Contains(userId.Value)) {
+                throw new ArgumentException("User is not in the list of permitted users");
+            }
+
+            return AssignmentMethod.SelectedUser([userId.Value]);
+        }
+
+        return AssignmentMethod.SelectedUser(Users);
     }
 }

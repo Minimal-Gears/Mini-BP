@@ -102,7 +102,7 @@ public class Case : StateMachine<CaseStates, CartableTiggers>, IEntity// where T
                      wfs.Step.ToString(),
                      State,
                      Convert.ToInt32(wfs.Step),
-                     wfs.SelectedUser,
+                     wfs.SelectUser(),
                      DateTime.UtcNow,
                      1,
                      true,

@@ -99,7 +99,7 @@ public class CartableService : BaseService //where TStep : Enum
                                     WorkFlowReference = startWorkFlowParams.WorkFlowInstance.GetType().AssemblyQualifiedName,
                                     State = CaseStates.Draft,
                                     FlowStep = Convert.ToInt32(startWorkFlowParams.WorkFlowInstance.StartStep.Step),
-                                    CreatorId = startWorkFlowParams.CurrentUserId,
+                                    CreatorId = startWorkFlowParams.WorkFlowInstance.StartStep.SelectUser(startWorkFlowParams.CurrentUserId),
                                     CurrentUserId = startWorkFlowParams.CurrentUserId,
                                     FlowParameters = startWorkFlowParams.FlowParameters
                                 };

@@ -1,6 +1,7 @@
 using Api.Model;
 using Api.Services.WorkflowRegistration;
 using Common;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniBP.BPMS.Domain.Model.Workflow;
 using MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
@@ -42,17 +43,27 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 
-app.MapGet("/test", async (CartableService cartableService) => {
-                        GettingLoanFlow flow = new GettingLoanFlow([]);
+app.MapGet("/test1", async (CartableService cartableService) => {
+                         GettingLoanFlow flow = new GettingLoanFlow([]);
 
-                        StartWorkFlowParams<GettingLoanSteps> startParams = new StartWorkFlowParams<GettingLoanSteps>(flow, "TestTitle", Guid.NewGuid(), []);
+                         StartWorkFlowParams<GettingLoanSteps> startParams = new StartWorkFlowParams<GettingLoanSteps>(flow, "TestTitle", Guid.NewGuid(),
+                                                                                                                       new Dictionary<string, string>() { { "EntityId", "1" } });
 
-                        var newCase = await cartableService.Start(startParams);
+                         var newCase = await cartableService.Start(startParams);
 
-                        await cartableService.Route<GettingLoanSteps>(new RouteVariable() { CaseId = newCase.Id });
+                         await cartableService.Route<GettingLoanSteps>(new RouteVariable() { CaseId = newCase.Id });
 
-                        return "OK";
-                    })
-   .WithName("Test");
+                         return "OK";
+                     })
+   .WithName("Test1");
+
+app.MapGet("/test2/{caseId}", async ([FromRoute] int caseId, CartableService cartableService) => {
+                                  var newCase = await cartableService.GetById(caseId);
+
+                                  await cartableService.Route<GettingLoanSteps>(new RouteVariable() { CaseId = newCase.Id });
+
+                                  return "OK";
+                              })
+   .WithName("Test2");
 
 app.Run();

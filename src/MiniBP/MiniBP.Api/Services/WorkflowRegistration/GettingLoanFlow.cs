@@ -24,7 +24,7 @@ public class GettingLoanFlow : WorkFlow<GettingLoanSteps>
     protected override void RegistrationWorkflowSteps()
     {
         Step_Apply = new WorkflowStep<GettingLoanSteps>(GettingLoanSteps.Apply,
-                                                        new CyclicAssignmentMethod(),
+                                                        new FireBaseAssignmentMethod(),
                                                         new List<Guid>() { Guid.NewGuid() },
                                                         string.Empty);
 
