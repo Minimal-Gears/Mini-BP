@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBP.Infrastructure", "Mi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CAA5BF7F-23B4-4ED3-9275-8C12A7E45CBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBP.BPMS.Tests", "MiniBP.BPMS.Tests\MiniBP.BPMS.Tests.csproj", "{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,18 @@ Global
 		{F039FE30-9FCB-44DE-B586-DE24363C0061}.Release|x64.Build.0 = Release|Any CPU
 		{F039FE30-9FCB-44DE-B586-DE24363C0061}.Release|x86.ActiveCfg = Release|Any CPU
 		{F039FE30-9FCB-44DE-B586-DE24363C0061}.Release|x86.Build.0 = Release|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Debug|x64.Build.0 = Debug|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Debug|x86.Build.0 = Debug|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Release|x64.ActiveCfg = Release|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Release|x64.Build.0 = Release|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Release|x86.ActiveCfg = Release|Any CPU
+		{33CD8FB5-CB90-490A-B1CF-B53D18ADED10}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
