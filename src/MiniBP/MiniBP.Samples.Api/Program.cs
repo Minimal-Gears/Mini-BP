@@ -2,18 +2,28 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MiniBP.BPMS.Abstractions;
 using MiniBP.Samples.Api.Contracts;
 using MiniBP.Samples.Api.Workflows;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddOpenApi();
 builder.Services.AddSingleton<InMemoryRuntimeStore>();
 builder.Services.AddSingleton<IWorkflowRegistry, InMemoryWorkflowRegistry>();
 builder.Services.AddSingleton<ICaseService, CaseService>();
 builder.Services.AddSingleton<IDutyService, DutyService>();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment()) {
+    app.MapOpenApi();
+    app.MapScalarApiReference(options => options
+        .WithTitle("Mini-BP Sample API")
+        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient));
+}
 
 var workflows = app.Services.GetRequiredService<IWorkflowRegistry>();
 workflows.Register(LoanApplicationWorkflow.Build());
