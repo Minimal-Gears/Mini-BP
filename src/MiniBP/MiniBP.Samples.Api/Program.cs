@@ -1,46 +1,75 @@
-using Api.Model;
-using Common;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MiniBP.Samples.Api.Endpoints;
-using MiniBP.BPMS.Domain.Model.Workflow;
-using MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
-using MiniBP.BPMS.Domain.Repository;
-using MiniBP.Infrastructure.DataAccess;
-using MiniBP.Infrastructure.DataAccess.Postgres;
-using MiniBP.Infrastructure.DataAccess.Repository;
-using MiniBP.Infrastructure.Helper;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using MiniBP.BPMS.Abstractions;
+using MiniBP.Samples.Api.Contracts;
+using MiniBP.Samples.Api.Workflows;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-builder.Services.AddDbContext<PostgresBpmsDbContext>(dbContextOptions =>
-                                                         dbContextOptions.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
-                                                                                    npgsqlOptions => {
-                                                                                        npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 3,
-                                                                                                                           maxRetryDelay: TimeSpan.FromSeconds(10),
-                                                                                                                           errorCodesToAdd: null);
-                                                                                    }));
-
-builder.Services.AddScoped<BpmsDbContext, PostgresBpmsDbContext>();
-builder.Services.AddScoped<ICaseRepository, CaseRepository>();
-builder.Services.AddScoped<IBpmsUnitOfWork, BpmsUnitOfWork>();
-builder.Services.AddScoped<IUserContext, UserContext>();
-builder.Services.AddScoped<IDbExceptionHelper, PostgresExceptionHelper>();
+builder.Services.AddSingleton<InMemoryRuntimeStore>();
+builder.Services.AddSingleton<IWorkflowRegistry, InMemoryWorkflowRegistry>();
+builder.Services.AddSingleton<ICaseService, CaseService>();
+builder.Services.AddSingleton<IDutyService, DutyService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
-    app.MapOpenApi();
-}
+var workflows = app.Services.GetRequiredService<IWorkflowRegistry>();
+workflows.Register(LoanApplicationWorkflow.Build());
 
-app.UseHttpsRedirection();
+app.MapGet("/", () => TypedResults.Ok(new {
+    name = "Mini-BP Sample API",
+    workflow = "LoanApplication"
+}));
 
-GettingLoanEndpoints.Register(app);
+app.MapGet("/workflows", (IWorkflowRegistry registry) =>
+    TypedResults.Ok(registry.GetAll().Select(workflow => new {
+        workflow.Name,
+        Steps = workflow.Steps.Values.Select(step => new { step.Name, Type = step.Type.ToString(), step.Title })
+    })));
 
+app.MapPost("/cases", async (StartWorkflowCaseRequest request, ICaseService caseService, CancellationToken cancellationToken) =>
+{
+    var instance = await caseService.StartCaseAsync(new StartCaseRequest {
+        WorkflowName = "LoanApplication",
+        StartedByUserId = "sample-user",
+        Parameters = request.Parameters
+    }, cancellationToken);
+
+    return TypedResults.Created($"/cases/{instance.Id}", instance);
+});
+
+app.MapGet("/cases", async (ICaseService caseService, CancellationToken cancellationToken) =>
+    TypedResults.Ok(await caseService.GetCasesAsync(cancellationToken)));
+
+app.MapGet("/cases/{caseId:guid}", async Task<IResult> (Guid caseId, ICaseService caseService, CancellationToken cancellationToken) =>
+{
+    var instance = await caseService.GetCaseAsync(caseId, cancellationToken);
+    return instance is null ? Results.NotFound() : Results.Ok(instance);
+});
+
+app.MapGet("/duties", async (string? userId, IDutyService dutyService, CancellationToken cancellationToken) =>
+    TypedResults.Ok(await dutyService.GetInboxAsync(userId, cancellationToken)));
+
+app.MapGet("/duties/{dutyId:guid}", async Task<IResult> (Guid dutyId, IDutyService dutyService, CancellationToken cancellationToken) =>
+{
+    var duty = await dutyService.GetDutyAsync(dutyId, cancellationToken);
+    return duty is null ? Results.NotFound() : Results.Ok(duty);
+});
+
+app.MapPost("/duties/{dutyId:guid}/claim", async (Guid dutyId, ClaimDutyRequest request, IDutyService dutyService, CancellationToken cancellationToken) =>
+    TypedResults.Ok(await dutyService.ClaimDutyAsync(dutyId, request.UserId, cancellationToken)));
+
+app.MapPost("/duties/{dutyId:guid}/complete", async (Guid dutyId, CompleteDutyApiRequest request, IDutyService dutyService, CancellationToken cancellationToken) =>
+    TypedResults.Ok(await dutyService.CompleteDutyAsync(dutyId, new CompleteDutyRequest {
+        CompletedByUserId = request.UserId,
+        TransitionName = request.TransitionName,
+        Comment = request.Comment,
+        Parameters = request.Parameters
+    }, cancellationToken)));
+
+app.MapPost("/duties/{dutyId:guid}/comments", async (Guid dutyId, AddCommentRequest request, IDutyService dutyService, CancellationToken cancellationToken) =>
+    TypedResults.Ok(await dutyService.AddCommentAsync(dutyId, request.UserId, request.Text, cancellationToken)));
 
 app.Run();
