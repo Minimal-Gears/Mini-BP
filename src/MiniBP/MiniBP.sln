@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBP.Api", "MiniBP.Api\MiniBP.Api.csproj", "{77B644DD-49E3-41B2-B047-54F51725346B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBP.Samples.Api", "MiniBP.Samples.Api\MiniBP.Samples.Api.csproj", "{77B644DD-49E3-41B2-B047-54F51725346B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBP.BPMS", "MiniBP.BPMS\MiniBP.BPMS.csproj", "{A245BC8B-DC74-4DEF-9617-30C6947D1913}"
 EndProject

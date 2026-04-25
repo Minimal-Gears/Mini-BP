@@ -1,14 +1,11 @@
 using Api.Model;
-using Api.Model.Endpoints;
-using Api.Services.WorkflowRegistration;
 using Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MiniBP.Samples.Api.Endpoints;
 using MiniBP.BPMS.Domain.Model.Workflow;
 using MiniBP.BPMS.Domain.Model.Workflow.AssignmentMethod;
 using MiniBP.BPMS.Domain.Repository;
-using MiniBP.BPMS.Services.CartableService;
-using MiniBP.BPMS.Services.CartableService.Params;
 using MiniBP.Infrastructure.DataAccess;
 using MiniBP.Infrastructure.DataAccess.Postgres;
 using MiniBP.Infrastructure.DataAccess.Repository;
@@ -32,7 +29,6 @@ builder.Services.AddScoped<BpmsDbContext, PostgresBpmsDbContext>();
 builder.Services.AddScoped<ICaseRepository, CaseRepository>();
 builder.Services.AddScoped<IBpmsUnitOfWork, BpmsUnitOfWork>();
 builder.Services.AddScoped<IUserContext, UserContext>();
-builder.Services.AddScoped<CartableService>();
 builder.Services.AddScoped<IDbExceptionHelper, PostgresExceptionHelper>();
 
 var app = builder.Build();
@@ -46,27 +42,5 @@ app.UseHttpsRedirection();
 
 GettingLoanEndpoints.Register(app);
 
-app.MapGet("/test1", async (CartableService cartableService) => {
-                         GettingLoanFlow flow = new GettingLoanFlow([], null);
-
-                         StartWorkFlowParams<GettingLoanSteps> startParams = new StartWorkFlowParams<GettingLoanSteps>(flow, "TestTitle", Guid.NewGuid(),
-                                                                                                                       new Dictionary<string, string>() { { "EntityId", "1" } });
-
-                         var newCase = await cartableService.Start(startParams);
-
-                         await cartableService.Route<GettingLoanSteps>(new RouteVariable() { CaseId = newCase.Id });
-
-                         return "OK";
-                     })
-   .WithName("Test1");
-
-app.MapGet("/test2/{caseId}", async ([FromRoute] int caseId, CartableService cartableService) => {
-                                  var newCase = await cartableService.GetById(caseId);
-
-                                  await cartableService.Route<GettingLoanSteps>(new RouteVariable() { CaseId = newCase.Id });
-
-                                  return "OK";
-                              })
-   .WithName("Test2");
 
 app.Run();
