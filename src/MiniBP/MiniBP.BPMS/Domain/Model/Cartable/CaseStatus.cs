@@ -1,6 +1,6 @@
 namespace MiniBP.BPMS.Domain.Model.Cartable;
 
-public enum CaseStates
+public enum CaseStatus
 {
     Draft = 1,
     ToDo = 2,

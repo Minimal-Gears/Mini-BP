@@ -2,7 +2,7 @@ using MiniBP.BPMS.Domain.Model.Workflow;
 
 namespace MiniBP.BPMS.Domain.Model.Cartable;
 
-public class FlowParameter : IEntity, IFlowParameter
+public class FlowParameter : IEntity
 {
     public FlowParameter(int caseId, string key, string value)
     {
@@ -11,9 +11,7 @@ public class FlowParameter : IEntity, IFlowParameter
         Value = value;
     }
 
-    private FlowParameter()
-    {
-    }
+    private FlowParameter() { }
 
     public int Id { get; private set; }
 

@@ -14,8 +14,4 @@
       <ProjectReference Include="..\MiniBP.BPMS\MiniBP.BPMS.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Migrations\" />
-    </ItemGroup>
-
 </Project>
