@@ -17,5 +17,5 @@ public class UserContext : IUserContext
     // 	contextAccessor.HttpContext.User.FindFirst("preferred_username").Value,
     // 	Convert.ToInt32(contextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "org_info_id")?.Value));
 
-    public UserDto CurrentUser => new UserDto(Guid.Empty, "rmn", 1);
+    public UserDto CurrentUser => new UserDto(Guid.Parse("8c95a960-33d8-49d6-945d-693ce9db1419"), "rmn", 1);
 }

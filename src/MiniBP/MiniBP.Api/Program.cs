@@ -1,4 +1,5 @@
 using Api.Model;
+using Api.Model.Endpoints;
 using Api.Services.WorkflowRegistration;
 using Common;
 using Microsoft.AspNetCore.Mvc;
@@ -43,8 +44,10 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 
+GettingLoanEndpoints.Register(app);
+
 app.MapGet("/test1", async (CartableService cartableService) => {
-                         GettingLoanFlow flow = new GettingLoanFlow([]);
+                         GettingLoanFlow flow = new GettingLoanFlow([], null);
 
                          StartWorkFlowParams<GettingLoanSteps> startParams = new StartWorkFlowParams<GettingLoanSteps>(flow, "TestTitle", Guid.NewGuid(),
                                                                                                                        new Dictionary<string, string>() { { "EntityId", "1" } });

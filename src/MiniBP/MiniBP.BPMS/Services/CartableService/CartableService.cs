@@ -34,7 +34,7 @@ public class CartableService : BaseService //where TStep : Enum
         return @case;
     }
 
-    public async Task<Case> Route<TStep>(RouteVariable routeVariable) where TStep : Enum
+    public async Task<Case> Route<TStep>(RouteVariable routeVariable) where TStep : struct,Enum
     {
         //var www = await caseRepository.GetById(caseId);
         var @case = await caseRepository.Get()
@@ -73,7 +73,7 @@ public class CartableService : BaseService //where TStep : Enum
         return CartableDto.ConvertToDto(@case);
     }
 
-    private WorkFlow<TStep> GetFlowInstance<TStep>(string workFlowReference, Case @case, RouteVariable routeVariable) where TStep : Enum
+    private WorkFlow<TStep> GetFlowInstance<TStep>(string workFlowReference, Case @case, RouteVariable routeVariable) where TStep : struct, Enum
     {
         var workFlowRefereceType = Type.GetType(workFlowReference);
         List<IFlowParameter> flowParameters = null;
@@ -85,7 +85,8 @@ public class CartableService : BaseService //where TStep : Enum
             }
         }
 
-        var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, flowParameters);
+        Enum.TryParse(@case.LastStepTitle, true, out TStep initStep);
+        var instance = (WorkFlow<TStep>)Activator.CreateInstance(workFlowRefereceType, flowParameters, initStep);
         return instance;
     }
 

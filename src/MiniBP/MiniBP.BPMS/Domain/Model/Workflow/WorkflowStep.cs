@@ -27,11 +27,11 @@ public class WorkflowStep<TStep> where TStep : Enum
 
     public override bool Equals(object obj)
     {
-        var item = obj as WorkflowStep<TStep>;
-
-        if (item == null) {
+        if (obj == null) {
             return false;
         }
+
+        var item = obj as WorkflowStep<TStep>;
 
         return Step.Equals(item.Step) && IsFinal.Equals(item.IsFinal);
     }

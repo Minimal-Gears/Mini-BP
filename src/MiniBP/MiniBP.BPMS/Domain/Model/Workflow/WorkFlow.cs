@@ -4,11 +4,11 @@ namespace MiniBP.BPMS.Domain.Model.Workflow;
 
 public abstract class WorkFlow<TStep> where TStep : Enum
 {
-    protected WorkFlow(List<IFlowParameter> flowParameters)
+    protected WorkFlow(List<IFlowParameter> flowParameters, WorkflowStep<TStep>? initialState)
     {
         //FlowHandler = new StateMachine<WorkflowStep<TStep>, WorkFlowActions>(initialState);
         FlowParameters = flowParameters;
-        RegistrationWorkflowSteps();
+        RegistrationWorkflowSteps(initialState);
     }
 
     protected StateMachine<WorkflowStep<TStep>, WorkFlowActions> FlowHandler { get; set; }
@@ -28,5 +28,5 @@ public abstract class WorkFlow<TStep> where TStep : Enum
 
     //public List<WorkflowStep<TStep>> WorkflowSteps { get; set; }
 
-    protected abstract void RegistrationWorkflowSteps();
+    protected abstract void RegistrationWorkflowSteps(WorkflowStep<TStep>? initialState);
 }
